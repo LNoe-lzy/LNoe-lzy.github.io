@@ -174,12 +174,19 @@
           2017-07-08
       </time>
     
+    
+    | 
+    <a href='/tags/前端开发-转载/'>前端开发, 转载</a>
+    
+    
 </span>
                 <h1>利用适口单位实现适配布局</h1>
             </div>
         </div>
         <div class="col-md-8 col-md-offset-2">
-      		<p>响应式布局的实现依靠媒体查询（ Media Queries ）来实现，选取主流设备宽度尺寸作为断点针对性写额外的样式进行适配，但这样做会比较麻烦，只能在选取的几个主流设备尺寸下呈现完美适配。</p>
+      		<blockquote>
+<p>原文链接: <a href="https://aotu.io/notes/2017/04/28/2017-4-28-CSS-viewport-units/" target="_blank" rel="external">https://aotu.io/notes/2017/04/28/2017-4-28-CSS-viewport-units/</a><br>好文章的搬运工。<br>响应式布局的实现依靠媒体查询（ Media Queries ）来实现，选取主流设备宽度尺寸作为断点针对性写额外的样式进行适配，但这样做会比较麻烦，只能在选取的几个主流设备尺寸下呈现完美适配。</p>
+</blockquote>
 <p>即使是通过 rem 单位来实现适配，也是需要内嵌一段脚本去动态计算根元素大小。近年来，随着移动端对视口单位的支持越来越成熟、广泛，使得我们可以尝试一种新的办法去真正地适配所有设备尺寸。</p>
 <h1 id="认识视口单位（-Viewport-units"><a href="#认识视口单位（-Viewport-units" class="headerlink" title="认识视口单位（ Viewport units )"></a>认识视口单位（ Viewport units )</h1><p>首先，我们要了解什么是视口。</p>
 <p>在业界，极为推崇的一种理论是 Peter-Paul Koch (江湖人称“PPK大神”)提出的关于视口的解释——在桌面端，视口指的是在桌面端，指的是浏览器的可视区域；而在移动端较为复杂，它涉及到三个视口：分别是 Layout Viewport（布局视口）、 Visual Viewport（视觉视口）、Ideal Viewport。</p>
