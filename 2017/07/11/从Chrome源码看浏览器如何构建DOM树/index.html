@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<!--[if lte IE 8 ]>
+<html class="ie" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
+<![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<!--
+***************  *      *     *
+      8          *    *       *
+      8          *  *         *
+      8          **           *
+      8          *  *         *
+      8          *    *       *
+      8          *      *     *
+      8          *        *   ***********    -----Theme By Kieran(http://go.kieran.top)
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
+<!--<![endif]-->
+
+<head>
+  <title>从Chrome源码看浏览器如何构建DOM树 | Leezy__</title>
+  <!-- Meta data -->
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content="Leezy__">
+    <meta name="author" content="Leezy">
+    <meta name="description" content="Blog and life" />
+    <meta name="keywords" content="" />
+
+    <!-- Favicon, (keep icon in root folder) -->
+    <link rel="Shortcut Icon" href="/img/favicon.ico" type="image/ico">
+
+    <link rel="alternate" href="/atom.xml" title="Leezy__" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/all.css" media="screen" type="text/css">
+    
+    <link rel="stylesheet" href="/highlightjs/vs.css" type="text/css">
+    
+
+    <!--[if IE 8]>
+    <link rel="stylesheet" type="text/css" href="/css/ie8.css" />
+    <![endif]-->
+
+    <!-- jQuery | Load our jQuery, with an alternative source fallback to a local version if request is unavailable -->
+    <script src="/js/jquery-1.11.1.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/jquery-1.11.1.min.js"><\/script>')</script>
+
+    <!-- Load these in the <head> for quicker IE8+ load times -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="/js/html5shiv.min.js"></script>
+    <script src="/js/respond.min.js"></script>
+    <![endif]-->
+
+  
+  
+  
+
+  <style>.col-md-8.col-md-offset-2.opening-statement img{display:none;}</style>
+</head>
+
+<!--
+<body class="post-template">
+-->
+<body id="index" class="lightnav animsition">
+
+      <!-- ============================ Off-canvas navigation =========================== -->
+
+    <div class="sb-slidebar sb-right sb-style-overlay sb-momentum-scrolling">
+        <div class="sb-close" aria-label="Close Menu" aria-hidden="true">
+            <img src="/img/close.png" alt="Close"/>
+        </div>
+        <!-- Lists in Slidebars -->
+        <ul class="sb-menu">
+            <li><a href="/" class="animsition-link" title="Home">Home</a></li>
+            <li><a href="/archives" class="animsition-link" title="archive">archives</a></li>
+            <!-- Dropdown Menu -->
+			 
+            <li>
+                <a class="sb-toggle-submenu">Works<span class="sb-caret"></span></a>
+                <ul class="sb-submenu">
+                    
+                        <li><a href="/" target="_BLANK" class="animsition-link">AAA</a></li>
+                    
+                        <li><a href="/atom.xml" target="_BLANK" class="animsition-link">BBB</a></li>
+                    
+                </ul>
+            </li>
+            
+            
+            
+            <li>
+                <a class="sb-toggle-submenu">Links<span class="sb-caret"></span></a>
+                <ul class="sb-submenu">
+                    
+                    <li><a href="https://zhuanlan.zhihu.com/bdwmfe" class="animsition-link">百度外卖前端</a></li>
+                    
+                </ul>
+            </li>
+            
+        </ul>
+        <!-- Lists in Slidebars -->
+        <ul class="sb-menu secondary">
+            <li><a href="/about.html" class="animsition-link" title="about">About</a></li>
+            <li><a href="/atom.xml" class="animsition-link" title="rss">RSS</a></li>
+        </ul>
+    </div>
+    
+    <!-- ============================ END Off-canvas navigation =========================== -->
+
+    <!-- ============================ #sb-site Main Page Wrapper =========================== -->
+
+    <div id="sb-site">
+        <!-- #sb-site - All page content should be contained within this id, except the off-canvas navigation itself -->
+
+        <!-- ============================ Header & Logo bar =========================== -->
+
+        <div id="navigation" class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <!-- Nav logo -->
+                    <div class="logo">
+                        <a href="/" title="Logo" class="animsition-link">
+                         <img src="/img/logo.png" alt="Logo" width="35px;"/> 
+                        </a>
+                    </div>
+                    <!-- // Nav logo -->
+                    <!-- Info-bar -->
+                    <nav>
+                        <ul class="nav">
+                            <li><a href="/" class="animsition-link">Leezy__</a></li>
+                            <li class="nolink"><span>Always </span>Creative.</li>
+                            
+                            <li><a href="https://github.com/LNoe-lzy" title="Github" target="_blank"><i class="icon-github"></i></a></li>
+                            
+                            
+                            <li><a href="https://twitter.com/" title="Twitter" target="_blank"><i class="icon-twitter"></i></a></li>
+                            
+                            
+                            <li><a href="https://www.facebook.com/" title="Facebook" target="_blank"><i class="icon-facebook"></i></a></li>
+                            
+                            
+                            <li><a href="https://google.com/" title="Google-Plus" target="_blank"><i class="icon-google-plus"></i></a></li>
+                            
+                            
+                            <li><a href="http://weibo.com/p/1005055533746347/home?from=page_100505&mod=TAB&is_all=1#place" title="Sina-Weibo" target="_blank"><i class="icon-sina-weibo"></i></a></li>
+                            
+                            <li class="nolink"><span>Welcome!</span></li>
+                        </ul>
+                    </nav>
+                    <!--// Info-bar -->
+                </div>
+                <!-- // .container -->
+                <div class="learnmore sb-toggle-right">More</div>
+                <button type="button" class="navbar-toggle menu-icon sb-toggle-right" title="More">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar before"></span>
+                <span class="icon-bar main"></span>
+                <span class="icon-bar after"></span>
+                </button>
+            </div>
+            <!-- // .navbar-inner -->
+        </div>
+
+        <!-- ============================ Header & Logo bar =========================== -->
+
+
+      
+<section id="intro">
+    <div class="container">
+        <div class="row col-md-offset-2">
+            <div class="col-md-8">
+    			<span class="post-meta">
+      <time datetime="2017-07-11T07:07:06.000Z" itemprop="datePublished">
+          2017-07-11
+      </time>
+    
+    
+    | 
+    <a href='/tags/性能优化/'>性能优化</a>
+    
+    
+</span>
+                <h1>从Chrome源码看浏览器如何构建DOM树</h1>
+            </div>
+        </div>
+        <div class="col-md-8 col-md-offset-2">
+      		<blockquote>
+<p>原文链接: <a href="https://zhuanlan.zhihu.com/p/24911872" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/24911872</a>  </p>
+</blockquote>
+<h1 id="Chrome建DOM源码分析"><a href="#Chrome建DOM源码分析" class="headerlink" title="Chrome建DOM源码分析"></a>Chrome建DOM源码分析</h1><p>先画出构建DOM的几个关键的类的UML图，如下所示：<br><img src="http://img.waimai.baidu.com/pb/b39e126dd6ca354694304269124b777c56" alt="image"></p>
+<p>第一个类HTMLDocumentParser负责解析html文本为tokens，一个token就是一个标签文本的序列化，并借助HTMLTreeBuilder对这些tokens分类处理，根据不同的标签类型、在文档不同位置，调用HTMLConstructionSite不同的函数构建DOM树。而HTMLConstructionSite借助一个工厂类对不同类型的标签创建不同的html元素，并建立起它们的父子兄弟关系，其中它有一个m_document的成员变量，这个变量就是这棵树的根结点，也是js里面的window.document对象。</p>
+<p>为作说明，用一个简单的html文件一步步看这个DOM树是如何建立起来的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">&lt;meta charset=&quot;utf-8&quot;&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">&lt;div&gt;</div><div class="line">&lt;h1 class=&quot;title&quot;&gt;demo&lt;/h1&gt;</div><div class="line">&lt;input value=&quot;hello&quot;&gt;</div><div class="line">&lt;/div&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
+<p>我们先来研究一下Chrome的加载和解析机制</p>
+<h2 id="加载机制"><a href="#加载机制" class="headerlink" title="加载机制"></a>加载机制</h2><p>以发http请求去加载html文本做为我们分析的第一步，在此之前的一些初始化就不考虑了。Chrome是在DocumentLoader这个类里面的startLoadingMainResource函数里去加载url返回的数据，如访问一个网站则返回html文本：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">FetchRequest fetchRequest(m_request, FetchInitiatorTypeNames::document,</div><div class="line">mainResourceLoadOptions);</div><div class="line">m_mainResource =</div><div class="line">RawResource::fetchMainResource(fetchRequest, fetcher(), m_substituteData);</div></pre></td></tr></table></figure></p>
+<p>把参数里的m_request打印出来，在这个函数里面加一行代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">LOG(INFO) &lt;&lt; &quot;request url is: &quot; &lt;&lt; m_request.url().getString()</div></pre></td></tr></table></figure></p>
+<p>并重新编译Chrome运行，控制台输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[22731:775:0107/224014.494114:INFO:DocumentLoader.cpp(719)] request url is: “file:///Users/yincheng/demo.html”</div></pre></td></tr></table></figure></p>
+<p>可以看到，这个url确实是我们传进的参数。</p>
+<p>发请求后，每次收到的数据块，会通过Blink封装的IPC进程间通信，触发DocumentLoader的dataReceived函数，里面会去调它commitData函数，开始处理具体业务逻辑：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">void DocumentLoader::commitData(const char* bytes, size_t length) &#123;</div><div class="line">ensureWriter(m_response.mimeType());</div><div class="line"></div><div class="line">if (length)</div><div class="line">m_dataReceived = true;</div><div class="line"></div><div class="line">m_writer-&gt;addData(bytes, length);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这个函数关键行是最2行和第7行，ensureWriter这个函数会去初始化上面画的UML图的解析器HTMLDocumentParser(Parser)，并实例化document对象，这些对象都是通过实例m_writer去带动的。也就是说，writer会去实例化Parser之后，第7行writer传递数据给Parser去解析。</p>
+<p>检查一下收到的数据bytes是什么东西：<br><img src="http://img.waimai.baidu.com/pb/75fa16672d3e024c663ad129ff6f5be6a5" alt="image"><br>可以看到bytes就是请求返回的html文本。</p>
+<p>在ensureWriter函数里面有个判断：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">void DocumentLoader::ensureWriter(const AtomicString&amp; mimeType,</div><div class="line">const KURL&amp; overridingURL) &#123;</div><div class="line">if (m_writer)</div><div class="line">return;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果m_writer已经初始化过了，则直接返回。也就是说Parser和document只会初始化一次。</p>
+<p>在上面的addData函数里面，会启动一条线程执行Parser的任务：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">if (!m_haveBackgroundParser)</div><div class="line">startBackgroundParser();</div></pre></td></tr></table></figure></p>
+<p>并把数据传递给这条线程进行解析，Parser一旦收到数据就会序列成tokens，再构建DOM树。</p>
+<h2 id="构建tokens"><a href="#构建tokens" class="headerlink" title="构建tokens"></a>构建tokens</h2><p>这里我们只要关注序列化后的token是什么东西就好了，为此，写了一个函数，把tokens的一些关键信息打印出来：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">String getTokenInfo()&#123;</div><div class="line">String tokenInfo = &quot;&quot;;</div><div class="line">tokenInfo = &quot;tagName: &quot; + this-&gt;m_name + &quot;|type: &quot; + getType() + &quot;|attr:&quot; + getAttributes() + &quot;|text: &quot; + this-&gt;m_data;</div><div class="line">return tokenInfo;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>打印出来的结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">tagName: html  |type: DOCTYPE   |attr:              |text: &quot;</div><div class="line">tagName:       |type: Character |attr:              |text: \n&quot;</div><div class="line">tagName: html  |type: startTag  |attr:              |text: &quot;</div><div class="line">tagName:       |type: Character |attr:              |text: \n&quot;</div><div class="line">tagName: head  |type: startTag  |attr:              |text: &quot;</div><div class="line">tagName:       |type: Character |attr:              |text: \n    &quot;</div><div class="line">tagName: meta  |type: startTag  |attr:charset=utf-8 |text: &quot;</div><div class="line">tagName:       |type: Character |attr:              |text: \n&quot;</div><div class="line">tagName: head  |type: EndTag    |attr:              |text: &quot;</div><div class="line">tagName:       |type: Character |attr:              |text: \n&quot;</div><div class="line">tagName: body  |type: startTag  |attr:              |text: &quot;</div><div class="line">tagName:       |type: Character |attr:              |text: \n    &quot;</div><div class="line">tagName: div   |type: startTag  |attr:              |text: &quot;</div><div class="line">tagName:       |type: Character |attr:              |text: \n        &quot;</div><div class="line">tagName: h1    |type: startTag  |attr:class=title   |text: &quot;</div><div class="line">tagName:       |type: Character |attr:              |text: demo&quot;</div><div class="line">tagName: h1    |type: EndTag    |attr:              |text: &quot;</div><div class="line">tagName:       |type: Character |attr:              |text: \n        &quot;</div><div class="line">tagName: input |type: startTag  |attr:value=hello   |text: &quot;</div><div class="line">tagName:       |type: Character |attr:              |text: \n    &quot;</div><div class="line">tagName: div   |type: EndTag    |attr:              |text: &quot;</div><div class="line">tagName:       |type: Character |attr:              |text:     \n&quot;</div><div class="line">tagName: body  |type: EndTag    |attr:              |text: &quot;</div><div class="line">tagName:       |type: Character |attr:              |text: \n&quot;</div><div class="line">tagName: html  |type: EndTag    |attr:              |text: &quot;</div><div class="line">tagName:       |type: Character |attr:              |text: \n&quot;</div><div class="line">tagName:       |type: EndOfFile |attr:              |text: &quot;</div></pre></td></tr></table></figure></p>
+<p>这些内容有标签名、类型、属性和innerText，标签之间的文本（换行和空白）也会被当作一个标签处理。Chrome总共定义了7种标签类型：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">enum TokenType &#123;</div><div class="line">Uninitialized,</div><div class="line">DOCTYPE,</div><div class="line">StartTag,</div><div class="line">EndTag,</div><div class="line">Comment,</div><div class="line">Character,</div><div class="line">EndOfFile,</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>有了一个根结点document和一些格式化好的tokens，就可以构建dom树了。</p>
+<h2 id="构建DOM树"><a href="#构建DOM树" class="headerlink" title="构建DOM树"></a>构建DOM树</h2><h3 id="DOM结点"><a href="#DOM结点" class="headerlink" title="DOM结点"></a>DOM结点</h3><p>在研究这个过程之前，先来看一下一个DOM结点的数据结构是怎么样的。以p标签HTMLParagraphElement为例，画出它的UML图，如下所示：<br><img src="http://img.waimai.baidu.com/pb/298f3ed1fea48cf462435badc784909364" alt="image"></p>
+<p>Node是最顶层的父类，它有三个指针，两个指针分别指向它的前一个结点和后一个结点，一个指针指向它的父结点；</p>
+<p>ContainerNode继承于Node，添加了两个指针，一个指向第一个子元素，另一个指向最后一个子元素；</p>
+<p>Element又添加了获取dom结点属性、clientWidth、scrollTop等函数;</p>
+<p>HTMLElement又继续添加了Translate等控制，最后一级的子类HTMLParagraphElement只有一个创建的函数，但是它继承了所有父类的属性。</p>
+<p>需要提到的是每个Node都组合了一个treeScope，这个treeScope记录了它属于哪个document（一个页面可能会嵌入iframe）。</p>
+<p>构建DOM最关键的步骤应该是建立起每个结点的父子兄弟关系，即上面提到的成员指针的指向。</p>
+<h3 id="浏览器内核"><a href="#浏览器内核" class="headerlink" title="浏览器内核"></a>浏览器内核</h3><p>浏览器内核也叫渲染引擎，上面已经看到了Chrome是如何实例化一个P标签的，而从firefox的源码里面P标签的依赖关系是这样的：<br><img src="http://img.waimai.baidu.com/pb/7675837096555114c329cbbaa96b57b942" alt="image"></p>
+<p>在代码实现上和Chrome没有任何关系。这就好像W3C出了道题，firefox给了一个解法，取名为Gecko，Safari也给了自己的答案，取名Webkit，Chrome觉得Safari的解法比较好直接拿过来用，又结合自身的基础又封装了一层，取名Blink。由于W3C出的这道题“开放性”比较大，出的时间比较晚，导致各家实现各有花样。</p>
+<p>明白了这点后，继续DOM构建。下面开始不再说Chrome，叫Webkit或者Blink应该更准确一点</p>
+<h3 id="处理开始步骤"><a href="#处理开始步骤" class="headerlink" title="处理开始步骤"></a>处理开始步骤</h3><p>Webkit把tokens序列好之后，传递给构建的线程。在HTMLDocumentParser::processTokenizedChunkFromBackgroundParser的这个函数里面会做一个循环，把解析好的tokens做一个遍历，依次调constructTreeFromCompactHTMLToken进行处理。</p>
+<p>根据上面的输出，最开始处理的第一个token是docType的那个：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;tagName: html  |type: DOCTYPE   |attr:              |text: &quot;</div></pre></td></tr></table></figure></p>
+<p>在那个函数里面，首先Parser会调TreeBuilder的函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">m_treeBuilder-&gt;constructTree(&amp;token);</div></pre></td></tr></table></figure></p>
+<p>然后在TreeBuilder里面根据token的类型做不同的处理：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">void HTMLTreeBuilder::processToken(AtomicHTMLToken* token) &#123;</div><div class="line">if (token-&gt;type() == HTMLToken::Character) &#123;</div><div class="line">processCharacter(token);</div><div class="line">return;</div><div class="line">&#125;</div><div class="line"></div><div class="line">switch (token-&gt;type()) &#123;</div><div class="line">case HTMLToken::DOCTYPE:</div><div class="line">processDoctypeToken(token);</div><div class="line">break;</div><div class="line">case HTMLToken::StartTag:</div><div class="line">processStartTag(token);</div><div class="line">break;</div><div class="line">case HTMLToken::EndTag:</div><div class="line">processEndTag(token);</div><div class="line">break;</div><div class="line">//othercode</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>它会对不同类型的结点做相应处理，从上往下依次是文本节点、doctype节点、开标签、闭标签。doctype这个结点比较特殊，单独作为一种类型处理</p>
+<h3 id="DOCType处理"><a href="#DOCType处理" class="headerlink" title="DOCType处理"></a>DOCType处理</h3><p>在Parser处理doctype的函数里面调了HTMLConstructionSite的插入doctype的函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">void HTMLTreeBuilder::processDoctypeToken(AtomicHTMLToken* token) &#123;</div><div class="line">m_tree.insertDoctype(token);</div><div class="line">setInsertionMode(BeforeHTMLMode);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在这个函数里面，它会先创建一个doctype的结点，再创建插dom的task，并设置文档类型：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">void HTMLConstructionSite::insertDoctype(AtomicHTMLToken* token) &#123;</div><div class="line">//const String&amp; publicId = ...</div><div class="line">//const String&amp; systemId = ...</div><div class="line">DocumentType* doctype =</div><div class="line">DocumentType::create(m_document, token-&gt;name(), publicId, systemId); //创建DOCType结点</div><div class="line">attachLater(m_attachmentRoot, doctype);  //创建插DOM的task</div><div class="line">setCompatibilityModeFromDoctype(token-&gt;name(), publicId, systemId); //设置文档类型</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我们来看一下不同的doctype对文档类型的设置有什么影响，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// Check for Quirks Mode.</div><div class="line">if (name != &quot;html&quot; ) &#123;</div><div class="line">setCompatibilityMode(Document::QuirksMode);</div><div class="line">return;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果tagName不是html，那么文档类型将会是怪异模式，以下两种就会是怪异模式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCType svg&gt;</div><div class="line">&lt;!DOCType math&gt;</div></pre></td></tr></table></figure></p>
+<p>而常用的html4写法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</div><div class="line">&quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</div></pre></td></tr></table></figure></p>
+<p>在源码里面这个将是有限怪异模式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">// Check for Limited Quirks Mode.</div><div class="line">if (!systemId.isEmpty() &amp;&amp;</div><div class="line">publicId.startsWith(&quot;-//W3C//DTD HTML 4.01 Transitional//&quot;,</div><div class="line">TextCaseASCIIInsensitive))) &#123;</div><div class="line">setCompatibilityMode(Document::LimitedQuirksMode);</div><div class="line">return;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上面的systemId就是”<br><a href="http://www.w3.org/TR/html4/loose.dtd" target="_blank" rel="external">http://www.w3.org/TR/html4/loose.dtd</a>…<br>”，它不是空的，所以判断成立。而如果systemId为空，则它将是怪异模式。如果既不是怪异模式，也不是有限怪异模式，那么它就是标准模式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// Otherwise we are No Quirks Mode.</div><div class="line">setCompatibilityMode(Document::NoQuirksMode);</div></pre></td></tr></table></figure></p>
+<p>常用的html5的写法就是标准模式，如果连DOCType声明也没有呢？那么会默认设置为怪异模式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">void HTMLConstructionSite::setDefaultCompatibilityMode() &#123;</div><div class="line">setCompatibilityMode(Document::QuirksMode);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这些模式有什么区别，从源码注释可窥探一二：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">// There are three possible compatibility modes:</div><div class="line">// Quirks - quirks mode emulates WinIE and NS4. CSS parsing is also relaxed in</div><div class="line">// this mode, e.g., unit types can be omitted from numbers.</div><div class="line">// Limited Quirks - This mode is identical to no-quirks mode except for its</div><div class="line">// treatment of line-height in the inline box model.</div><div class="line">// No Quirks - no quirks apply. Web pages will obey the specifications to the</div><div class="line">// letter.</div></pre></td></tr></table></figure></p>
+<p>大意是说，怪异模式会模拟IE，同时CSS解析会比较宽松，例如数字单位可以省略，而有限怪异模式和标准模式的唯一区别在于在于对inline元素的行高处理不一样。标准模式将会让页面遵守文档规定。</p>
+<p>怪异模式下的input和textarea的默认盒模型将会变成border-box：<br><img src="http://img.waimai.baidu.com/pb/47c8a84ea5565b800a966c1344a1eb06ac" alt="image"></p>
+<p>标准模式下的文档高度是实际内容的高度：<br><img src="http://img.waimai.baidu.com/pb/67be2f0c1c56d37196a94f5f6e48dc7111" alt="image"></p>
+<p>而在怪异模式下的文档高度是窗口可视域的高度：<br><img src="http://img.waimai.baidu.com/pb/30f88c85847297b876f5392833fbbb259c" alt="image"></p>
+<p>在有限怪异模式下，div里面的图片下方不会留空白，如下图一所示；而在标准模式下div下方会留点空白，如下图二所示：  </p>
+<p><img src="http://img.waimai.baidu.com/pb/12acb35e39f77a70ffb51cd26d9846473c" alt="image"><br><code>图一</code><br><img src="http://img.waimai.baidu.com/pb/9af19d92d6ea40c788fdd8ab235f4b5d40" alt="image"><br><code>图二</code></p>
+<p>这个空白是div的行高撑起来的，当把div的行高设置成0的时候，就没有下面的空白了。在怪异模和有限怪异模式下，为了计算行内子元素的最小高度，一个块级元素的行高必须被忽略。</p>
+<p>这里的叙述虽然跟解读源码没有直接的关系（我们还没解读到CSS处理），但是很有必要提一下。</p>
+<h3 id="开标签处理"><a href="#开标签处理" class="headerlink" title="开标签处理"></a>开标签处理</h3><p>下一个遇到的开标签是<html>标签，处理这个标签的任务应该是实例化一个HTMLHtmlElement元素，然后把它的父元素指向document。Webkit源码里面使用了一个m_attachmentRoot的变量记录attach的根结点，初始化HTMLConstructionSite也会初始化这个变量，值为document：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">HTMLConstructionSite::HTMLConstructionSite(</div><div class="line">Document&amp; document)</div><div class="line">: m_document(&amp;document),</div><div class="line">m_attachmentRoot(document)) &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure></html></p>
+<p>所以html结点的父结点就是document，实际的操作过程是这样的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">void HTMLConstructionSite::insertHTMLHtmlStartTagBeforeHTML(AtomicHTMLToken* token) &#123;</div><div class="line">HTMLHtmlElement* element = HTMLHtmlElement::create(*m_document);</div><div class="line">attachLater(m_attachmentRoot, element);</div><div class="line">m_openElements.pushHTMLHtmlElement(HTMLStackItem::create(element, token));</div><div class="line">executeQueuedTasks();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>第二行先创建一个html结点，第三行把它加到一个任务队列里面，传递两个参数，第一个参数是父结点，第二个参数是当前结点，第五行执行队列里面的任务。代码第四行会把它压到一个栈里面，这个栈存放了未遇到闭标签的所有开标签。</p>
+<p>第三行attachLater是如何建立一个task的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">void HTMLConstructionSite::attachLater(ContainerNode* parent,</div><div class="line">Node* child,</div><div class="line">bool selfClosing) &#123;</div><div class="line">HTMLConstructionSiteTask task(HTMLConstructionSiteTask::Insert);</div><div class="line">task.parent = parent;</div><div class="line">task.child = child;</div><div class="line">task.selfClosing = selfClosing;</div><div class="line"></div><div class="line">// Add as a sibling of the parent if we have reached the maximum depth</div><div class="line">// allowed.</div><div class="line">if (m_openElements.stackDepth() &gt; maximumHTMLParserDOMTreeDepth &amp;&amp;</div><div class="line">task.parent-&gt;parentNode())</div><div class="line">task.parent = task.parent-&gt;parentNode();</div><div class="line"></div><div class="line">queueTask(task);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>代码逻辑比较简单，比较有趣的是发现DOM树有一个最大的深度：maximumHTMLParserDOMTreeDepth，超过这个最大深度就会把它子元素当作父无素的同级节点，这个最大值是多少呢？512：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">static const unsigned maximumHTMLParserDOMTreeDepth = 512;</div></pre></td></tr></table></figure></p>
+<p>我们重点关注executeQueuedTasks干了些什么，它会根据task的类型执行不同的操作，由于本次是insert的，它会去执行一个插入的函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">void ContainerNode::parserAppendChild(Node* newChild) &#123;</div><div class="line">if (!checkParserAcceptChild(*newChild))</div><div class="line">return;</div><div class="line">AdoptAndAppendChild()(*this, *newChild, nullptr);</div><div class="line">&#125;</div><div class="line">notifyNodeInserted(*newChild, ChildrenChangeSourceParser);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在插入里面它会先去检查父元素是否支持子元素，如果不支持，则直接返回，就像video标签不支持子元素。然后再去调具体的插入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">void ContainerNode::appendChildCommon(Node&amp; child) &#123;</div><div class="line">child.setParentOrShadowHostNode(this);</div><div class="line">if (m_lastChild) &#123;</div><div class="line">child.setPreviousSibling(m_lastChild);</div><div class="line">m_lastChild-&gt;setNextSibling(&amp;child);</div><div class="line">&#125; else &#123;</div><div class="line">setFirstChild(&amp;child);</div><div class="line">&#125;</div><div class="line">setLastChild(&amp;child);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上面代码第二行，设置子元素的父结点，也就是会把html结点的父结点指向document，然后如果没有lastChild，会将这个子元素作为firstChild，由于上面已经有一个docype的子结点了，所以已经有lastChild了，因此会把这个子元素的previousSibling指向老的lastChild，老的lastChild的nexSibling指向它。最后倒数第二行再把子元素设置为当前ContainerNode（即document）的lastChild。这样就建立起了html结点的父子兄弟关系。</p>
+<p>可以看到，借助上一次的m_lastChild建立起了兄弟关系。</p>
+<p>这个时候你可能会有一个问题，为什么要用一个task队列存放将要插入的结点呢，而不是直接插入呢？一个原因是放到task里面方便统一处理，并且有些task可能不能立即执行，要先存起来。不过在我们这个案例里面都是存完后下一步就执行了。</p>
+<p>当遇到head标签的token时，也是先创建一个head结点，然后再创建一个task，插到队列里面：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">void HTMLConstructionSite::insertHTMLHeadElement(AtomicHTMLToken* token) &#123;</div><div class="line">m_head = HTMLStackItem::create(createHTMLElement(token), token);</div><div class="line">attachLater(currentNode(), m_head-&gt;element());</div><div class="line">m_openElements.pushHTMLHeadElement(m_head);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>attachLater传参的第一个参数为父结点，这个currentNode为开标签栈里面的最顶的元素：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ContainerNode* currentNode() const &#123; </div><div class="line">return m_openElements.topNode(); </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我们刚刚把html元素压了进去，则栈顶元素为html元素，所以head的父结点就为html。所以每当遇到一个开标签时，就把它压起来，下一次再遇到一个开标签时，它的父元素就是上一个开标签。</p>
+<p>所以，初步可以看到，借助一个栈建立起了父子关系。</p>
+<h3 id="处理闭标签"><a href="#处理闭标签" class="headerlink" title="处理闭标签"></a>处理闭标签</h3><p>当遇到一个闭标签时，会把栈里面的元素一直pop出来，直到pop到第一个和它标签名字一样的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">m_tree.openElements()-&gt;popUntilPopped(token-&gt;name());</div></pre></td></tr></table></figure></p>
+<p>我们第一个遇到的是闭标签是head标签，它会把开的head标签pop出来，栈里面就剩下html元素了，所以当再遇到body时，html元素就是body的父元素了。</p>
+<p>这个是栈的一个典型应用。</p>
+<p>以下面的html为例来研究压栈和出栈的过程：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">&lt;meta charset=&quot;utf-8&quot;&gt;&lt;/meta&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">&lt;div&gt;</div><div class="line">&lt;p&gt;&lt;b&gt;hello&lt;/b&gt;&lt;/p&gt;</div><div class="line">&lt;p&gt;demo&lt;/p&gt;</div><div class="line">&lt;/div&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
+<p>把push和pop打印出来是这样的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">push &quot;HTML&quot; m_stackDepth = 1</div><div class="line">push &quot;HEAD&quot; m_stackDepth = 2</div><div class="line">pop &quot;HEAD&quot; m_stackDepth = 1</div><div class="line">push &quot;BODY&quot; m_stackDepth = 2</div><div class="line">push &quot;DIV&quot; m_stackDepth = 3</div><div class="line">push &quot;P&quot; m_stackDepth = 4</div><div class="line">push &quot;B&quot; m_stackDepth = 5</div><div class="line">pop &quot;B&quot; m_stackDepth = 4</div><div class="line">pop &quot;P&quot; m_stackDepth = 3</div><div class="line">push &quot;P&quot; m_stackDepth = 4</div><div class="line">pop &quot;P&quot; m_stackDepth = 3</div><div class="line">pop &quot;DIV&quot; m_stackDepth = 2</div><div class="line">&quot;tagName: body  |type: EndTag    |attr:              |text: &quot;</div><div class="line">&quot;tagName: html  |type: EndTag    |attr:              |text: &quot;</div></pre></td></tr></table></figure></p>
+<p>这个过程确实和上面的描述一致，遇到一个闭标签就把一次的开标签pop出来。</p>
+<p>并且可以发现遇到body闭标签后，并不会把body给pop出来，因为如果body闭标签后面又再写了标签的话，就会自动当成body的子元素。</p>
+<p>假设上面的b标签的闭标签忘记写了，又会发生什么：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;p&gt;&lt;b&gt;hello&lt;/p&gt;</div></pre></td></tr></table></figure></p>
+<p>打印出来的结果是这样的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">push &quot;P&quot; m_stackDepth = 4</div><div class="line">push &quot;B&quot; m_stackDepth = 5</div><div class="line">&quot;tagName: p     |type: EndTag    |attr:              |text: &quot;</div><div class="line">pop &quot;B&quot; m_stackDepth = 4</div><div class="line">pop &quot;P&quot; m_stackDepth = 3</div><div class="line">push &quot;B&quot; m_stackDepth = 4</div><div class="line">push &quot;P&quot; m_stackDepth = 5</div><div class="line">pop &quot;P&quot; m_stackDepth = 4</div><div class="line">pop &quot;B&quot; m_stackDepth = 3</div><div class="line">pop &quot;DIV&quot; m_stackDepth = 2</div><div class="line">push &quot;B&quot; m_stackDepth = 3</div></pre></td></tr></table></figure></p>
+<p>同样地，在上面第3行，遇到P闭标签时，会把所有的开标签pop出来，直到遇到P标签。不同的是后续的过程中会不断地插入b标签，最后渲染的页面结构：<br><img src="http://img.waimai.baidu.com/pb/f8c151019340896ac32c8b4da950bd4945" alt="image"></p>
+<p>因为b等带有格式化的标签会特殊处理，遇到一个开标签时会它们放到一个列表里面：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// a, b, big, code, em, font, i, nobr, s, small, strike, strong, tt, and u.</div><div class="line">m_activeFormattingElements.append(currentElementRecord()-&gt;stackItem());</div></pre></td></tr></table></figure></p>
+<p>遇到一个闭标签时，又会从这个列表里面删掉。每处理一个新标签时就会进行检查和这个列表和栈里的开标签是否对应，如果不对应则会reconstruct：重新插入一个开标签。因此b就不断地被重新插入，直到遇到下一个b的闭标签为止。</p>
+<p>如果上面少写的是一个span，那么渲染之后的结果是正常的：<br><img src="http://img.waimai.baidu.com/pb/c07160c5cd5ea262e2cf82f8a8489a6413" alt="image"></p>
+<h3 id="自定义标签的处理"><a href="#自定义标签的处理" class="headerlink" title="自定义标签的处理"></a>自定义标签的处理</h3><p>在浏览器里面可以看到，自定义标签默认不会有任何的样式，并且它默认是一个行内元素：<br><img src="http://img.waimai.baidu.com/pb/3bd6d238154ec44f4b31d652a8d74e597a" alt="image"><br>初步观察它和span标签的表现是一样的：<br><img src="http://img.waimai.baidu.com/pb/2992bf1ac1d9361c5f2dfe68ac64e4b929" alt="image"><br>在blink的源码里面，不认识的标签默认会被实例化成一个HTMLUnknownElement，这个类对外提供了一个create函数，这和HTMLSpanElement是一样的，只有一个create函数，并且大家都是继承于HTMLElement。并且创建span标签的时候和unknown一样，并没有做特殊处理，直接调的create。所以从本质上来说，可以把自定义的标签当作一个span看待。然后你可以再设置display: block改成块级元素之类的。</p>
+<p>但是你可以用js定义一个自定义标签，定义它的属性等，Webkit会去读它的定义：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">// &quot;4. Let definition be the result of looking up a custom element ...&quot; etc.</div><div class="line">CustomElementDefinition* definition =</div><div class="line">m_isParsingFragment ? nullptr</div><div class="line">: lookUpCustomElementDefinition(document, token);</div></pre></td></tr></table></figure></p>
+<p>例如给自定义标签创建一个原生属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;high-school country=&quot;China&quot;&gt;NO. 2 high school&lt;/high-school&gt;</div></pre></td></tr></table></figure></p>
+<p>上面定义了一个country，为了可以直接获取这个属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">console.log(document.getElementsByTagName(&quot;high-school&quot;)[0].country);</div></pre></td></tr></table></figure></p>
+<p>注册一个自定义标签：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">window.customElements.define(&quot;high-school&quot;, HighSchoolElement);</div></pre></td></tr></table></figure></p>
+<p>这个HighSchoolElement继承于HTMLElement：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">class HighSchoolElement extends HTMLElement&#123;</div><div class="line">constructor()&#123;</div><div class="line">super();</div><div class="line">this._country = null;</div><div class="line">&#125;</div><div class="line">get country()&#123;</div><div class="line">return this._country;</div><div class="line">&#125;</div><div class="line">set country(country)&#123;</div><div class="line">this.setAttribute(&quot;country&quot;, _country);</div><div class="line">&#125;</div><div class="line">static get observedAttributes() &#123; </div><div class="line">return [&quot;country&quot;]; </div><div class="line">&#125;</div><div class="line">attributeChangedCallback(name, oldValue, newValue) &#123;</div><div class="line">this._country = newValue;</div><div class="line">this._updateRender(name, oldValue, newValue);</div><div class="line">&#125;</div><div class="line">_updateRender(name, oldValue, newValue)&#123;</div><div class="line">console.log(name + &quot; change from &quot; + oldValue + &quot; &quot; + newValue);</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>就可以直接取到contry这个属性，而不用通过getAttribute的函数，并且可以在属性发生变化时更新元素的渲染，改变color等。</p>
+<p>通过这种方式创建的，它就不是一个HTMLUnknownElement了。blink通过V8引擎把js的构造函数转化成C++的函数，实例化一个HTMLElement的对象。</p>
+<h3 id="查DOM过程"><a href="#查DOM过程" class="headerlink" title="查DOM过程"></a>查DOM过程</h3><h4 id="按ID查找"><a href="#按ID查找" class="headerlink" title="按ID查找"></a>按ID查找</h4><p>在页面添加一个script：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;document.getElementById(&quot;text&quot;)&lt;/script&gt;</div></pre></td></tr></table></figure></p>
+<p>Chrome的V8引擎把js代码层层转化，最后会调：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DocumentV8Internal::getElementByIdMethodForMainWorld(info);</div></pre></td></tr></table></figure></p>
+<p>而这个函数又会调TreeScope的getElementById的函数，TreeScope存储了一个m_map的哈希map，这个map以标签id字符串作为key值，Element为value值，我们可以把这个map打印出来：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Map::iterator it = m_map.begin();</div><div class="line">while(it != m_map.end())&#123;</div><div class="line">LOG(INFO) &lt;&lt; it-&gt;key &lt;&lt; &quot; &quot; &lt;&lt; it-&gt;value-&gt;element-&gt;tagName();</div><div class="line">++it;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>html结构是这样的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;user&quot; id=&quot;id-yin&quot;&gt;</div><div class="line">&lt;p id=&quot;id-name&quot; class=&quot;important&quot;&gt;yin&lt;/p&gt;</div><div class="line">&lt;p id=&quot;id-age&quot;&gt;20&lt;/p&gt;</div><div class="line">&lt;p id=&quot;id-sex&quot;&gt;mail&lt;/p&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure></p>
+<p>打印出来的结果为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&quot;id-age&quot; &quot;P&quot;</div><div class="line">&quot;id-sex&quot; &quot;P&quot;</div><div class="line">&quot;id-name&quot; &quot;P&quot;</div><div class="line">&quot;id-yin&quot; &quot;DIV&quot;</div></pre></td></tr></table></figure></p>
+<p>可以看到， 这个m_map把页面所有有id的标签都存了进来。由于map的查找时间复杂度为O(1)，所以使用ID选择器可以说是最快的。</p>
+<h4 id="类选择器"><a href="#类选择器" class="headerlink" title="类选择器"></a>类选择器</h4><p>js如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var users = document.getElementsByClassName(&quot;user&quot;); </div><div class="line">users.length;</div></pre></td></tr></table></figure></p>
+<p>在执行第一行的时候，Webkit返回了一个ClassCollection的列表：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">return new ClassCollection(rootNode, classNames);</div></pre></td></tr></table></figure></p>
+<p>而这个列表并不是去查DOM获取的，它只是记录了className作为标志。这与我们的认知是一致的，这种HTMLCollection的数据结构都是在使用的时候才去查DOM，所以在上面第二行去获取它的length，就会触发它的查DOM，在nodeCount这个函数里面执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">NodeType* currentNode = collection.traverseToFirst();</div><div class="line">unsigned currentIndex = 0;</div><div class="line">while (currentNode) &#123;</div><div class="line">m_cachedList.push_back(currentNode);</div><div class="line">currentNode = collection.traverseForwardToOffset(</div><div class="line">currentIndex + 1, *currentNode, currentIndex);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>第一行先获取符合collection条件的第一个结点，然后不断获取下一个符合条件的结点，直到null，并把它存到一个cachedList里面，下次再获取这个collection的东西时便不用再重复查DOM，只要cached仍然是有效的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">if (this-&gt;isCachedNodeCountValid())</div><div class="line">return this-&gt;cachedNodeCount();</div></pre></td></tr></table></figure></p>
+<p>怎么样找到有效的节点呢：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ElementType* element = Traversal&lt;ElementType&gt;::firstWithin(current);</div><div class="line">while (element &amp;&amp; !isMatch(*element))</div><div class="line">element = Traversal&lt;ElementType&gt;::next(*element, &amp;current, isMatch);</div><div class="line">return element;</div></pre></td></tr></table></figure></p>
+<p>第一行先获取第一个节点，如果它没有match，则继续next，直到找到符合条件或者空为止。我们的重点在于，它是怎么遍历的，如何next获取下一个节点，核心代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">if (current.hasChildren())</div><div class="line">return current.firstChild();</div><div class="line">if (current == stayWithin)</div><div class="line">return 0;</div><div class="line">if (current.nextSibling())</div><div class="line">return current.nextSibling();</div><div class="line">return nextAncestorSibling(current, stayWithin);</div></pre></td></tr></table></figure></p>
+<p>第一行先判断当前节点有没有子元素，如果有的话返回它的第一个子元素，如果当前节点没有子元素，并且这个节点就是开始找的根元素（用document.getElement*，则为document），则说明没有下一个元素了，直接返回0/null。如果这个节点不是根元素了（例如已经到了子元素这一层），那么看它有没有相邻元素，如果有则返回下一个相邻元素，如果相邻无素也没有了，由于它是一个叶子结点（没有子元素），说明它已经到了最深的一层，并且是当前层的最后一个叶子结点，那么就返回它的父元素的下一个相邻节点，如果这个也没有了，则返回null，查找结束。可以看出这是一个<br>深度优先的查找。</p>
+<h4 id="querySelector"><a href="#querySelector" class="headerlink" title="querySelector"></a>querySelector</h4><p>先来看下selector为一个id时发生了什么：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">document.querySelector(&quot;#id-name&quot;);</div></pre></td></tr></table></figure></p>
+<p>它会调ContainerNode的querySelecotr函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">SelectorQuery* selectorQuery = document().selectorQueryCache().add(</div><div class="line">selectors, document(), exceptionState);</div><div class="line"></div><div class="line">return selectorQuery-&gt;queryFirst(*this);</div></pre></td></tr></table></figure></p>
+<p>先把输入的selector字符串序列化成一个selectorQuery，然后再queryFirst，通过打断点可以发现，它最后会调的TreeScope的getElementById：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rootNode.treeScope().getElementById(idToMatch);</div></pre></td></tr></table></figure></p>
+<p>如果selector为一个class：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">document.querySelector(&quot;.user&quot;);</div></pre></td></tr></table></figure></p>
+<p>它会从document开始遍历：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">for (Element&amp; element : ElementTraversal::descendantsOf(rootNode)) &#123;</div><div class="line">if (element.hasClass() &amp;&amp; element.classNames().contains(className)) &#123;</div><div class="line">SelectorQueryTrait::appendElement(output, element);</div><div class="line">if (SelectorQueryTrait::shouldOnlyMatchFirstElement)</div><div class="line">return;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我们重点查看它是怎么遍历，即第一行的for循环。表面上看它好像把所有的元素取出来然后做个循环，其实不然，它是重载++操作符：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">void operator++() &#123; m_current = TraversalNext::next(*m_current, m_root); &#125;</div></pre></td></tr></table></figure></p>
+<p>只要我们看下next是怎么操作的就可以得知它是怎么遍历，而这个next跟上面的讲解class时是调的同一个next。不一样的是match条件判断是：有className，并且className列表里面包含这个class，如上面代码第二行。</p>
+<p>复杂选择器<br>例如写两个class：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">document.querySelector(&quot;.user .important&quot;);</div></pre></td></tr></table></figure></p>
+<p>最终也会转成一个遍历，只是判断是否match的条件不一样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">for (Element&amp; element : ElementTraversal::descendantsOf(*traverseRoot)) &#123;</div><div class="line">if (selectorMatches(selector, element, rootNode)) &#123;</div><div class="line">SelectorQueryTrait::appendElement(output, element);</div><div class="line">if (SelectorQueryTrait::shouldOnlyMatchFirstElement)</div><div class="line">return;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>怎么判断是否match比较复杂，这里不再展开讨论。</p>
+<p>同时在源码可以看到，如果是怪异模式，会调一个executeSlow的查询，并且判断match条件也不一样。不过遍历是一样的。</p>
+<p>查看源码确实是一件很费时费力的工作，但是通过一番探索，能够了解浏览器的一些内在机制，至少已经可以回答上面提出来的几个问题。同时知道了Webkit/Blink借助一个栈，结合开闭标签，一步步构建DOM树，并对DOCType的标签、自定义标签的处理有了一定的了解。最后又讨论了查DOM的几种情况，明白了查找的过程。</p>
+<p>通过上面的分析，对页面渲染的第一步构建DOM应该会有一个基础的了解。</p>
+
+            <div class="clearfix"></div>
+            <hr class="nogutter">
+        </div>
+        <nav class="pagination" role="pagination">
+    
+    
+    <a class="pull-right" href="/2017/07/08/利用适口单位实现适配布局/">
+        利用适口单位实现适配布局 →
+    </a>
+    
+</nav>
+
+        <div class="duoshuo">
+
+
+</div>
+    </div>
+</section>
+
+
+      
+<!-- ============================ Footer =========================== -->
+
+<footer>
+    <div class="container">
+            <div class="copy">
+                <p>
+                    &copy; 2014<script>new Date().getFullYear()>2010&&document.write("-"+new Date().getFullYear());</script>, Content By Leezy. All Rights Reserved.
+                </p>
+                <p>Theme By <a href="//go.kieran.top" style="color: #767D84">Kieran</a></p>
+            </div>
+            <div class="social">
+                <ul>
+                    
+                    <li><a href="https://github.com/LNoe-lzy" title="Github" target="_blank"><i class="icon-github"></i></a>&nbsp;</li>
+                    
+                    
+                    <li><a href="https://twitter.com/" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>&nbsp;</li>
+                    
+                    
+                    <li><a href="https://www.facebook.com/" title="Facebook" target="_blank"><i class="icon-facebook"></i></a>&nbsp;</li>
+                    
+                    
+                    <li><a href="https://google.com/" title="Google-Plus" target="_blank"><i class="icon-google-plus"></i></a>&nbsp;</li>
+                    
+                    
+                    <li><a href="http://weibo.com/p/1005055533746347/home?from=page_100505&mod=TAB&is_all=1#place" title="Sina-Weibo" target="_blank"><i class="icon-sina-weibo"></i></a>&nbsp;</li>
+                    
+                </ul>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+</footer>
+
+<!-- ============================ END Footer =========================== -->
+      <!-- Load our scripts -->
+<!-- Resizable 'on-demand' full-height hero -->
+<script type="text/javascript">
+    var resizeHero = function () {
+        var hero = $(".cover,.heightblock"),
+            window1 = $(window);
+        hero.css({
+            "height": window1.height()
+        });
+    };
+
+    resizeHero();
+
+    $(window).resize(function () {
+        resizeHero();
+    });
+</script>
+<script src="/js/plugins.min.js"></script><!-- Bootstrap core and concatenated plugins always load here -->
+<script src="/js/jquery.flexslider-min.js"></script><!-- Flexslider plugin -->
+<script src="/js/scripts.js"></script><!-- Theme scripts -->
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$('#intro').find('img').each(function(){
+  var alt = this.alt;
+
+  if (alt){
+    $(this).after('<span class="caption" style="display:none">' + alt + '</span>');
+  }
+
+  $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox" rel="gallery" />');
+});
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+<!-- Initiate flexslider plugin -->
+<script type="text/javascript">
+    $(document).ready(function($) {
+      (function(){
+        console.log('font');
+        var getCss = function(path) {
+          var head = document.getElementsByTagName('head')[0];
+          link = document.createElement('link');
+          link.href = path;
+          link.rel = 'stylesheet';
+          link.type = 'text/css';
+          head.appendChild(link);
+        };
+        getCss('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+        getCss('https://fonts.googleapis.com/css?family=Open+Sans:400,600');
+      })();
+      $('.flexslider').flexslider({
+        animation: "fade",
+        prevText: "",
+        nextText: "",
+        directionNav: true
+      });
+    });
+</script>
+
+</body>
+</html>
