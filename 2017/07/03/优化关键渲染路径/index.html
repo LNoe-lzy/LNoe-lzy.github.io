@@ -184,20 +184,25 @@
             </div>
         </div>
         <div class="col-md-8 col-md-offset-2">
-      		<h1 id="浏览器渲染原理"><a href="#浏览器渲染原理" class="headerlink" title="浏览器渲染原理"></a>浏览器渲染原理</h1><p> <img src="https://p1.ssl.qhimg.com/t01bebad90f06c9cdb9.png" alt="image"><br> <img src="http://upload-images.jianshu.io/upload_images/1158202-6c6f3bf9f9b2c5eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+      		<h1 id="浏览器渲染原理"><a href="#浏览器渲染原理" class="headerlink" title="浏览器渲染原理"></a>浏览器渲染原理</h1><hr>
+<p> <img src="https://p1.ssl.qhimg.com/t01bebad90f06c9cdb9.png" alt="image"><br> <img src="http://upload-images.jianshu.io/upload_images/1158202-6c6f3bf9f9b2c5eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
 <blockquote>
 <p>浏览器渲染流程</p>
 </blockquote>
-<h2 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h2><p>JavaScript实现动画效果，DOM元素操作等。</p>
-<h2 id="CSSOM"><a href="#CSSOM" class="headerlink" title="CSSOM"></a>CSSOM</h2><p> 确定每个DOM元素应该应用什么CSS规则。</p>
+<h2 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h2><hr>
+<p>JavaScript实现动画效果，DOM元素操作等。</p>
+<h2 id="CSSOM"><a href="#CSSOM" class="headerlink" title="CSSOM"></a>CSSOM</h2><hr>
+<p> 确定每个DOM元素应该应用什么CSS规则。</p>
 <blockquote>
 <p><strong>注意</strong>: CSS选择器越详细，匹配工作越多，匹配节点越慢。</p>
 </blockquote>
-<h2 id="RenderTree-渲染树"><a href="#RenderTree-渲染树" class="headerlink" title="RenderTree(渲染树)"></a>RenderTree(渲染树)</h2><p>RenderTree包含了渲染网页所需的节点, 无需渲染的节点不会被添加到RenderTree中。 如：<head>，display: none的节点</head></p>
+<h2 id="RenderTree-渲染树"><a href="#RenderTree-渲染树" class="headerlink" title="RenderTree(渲染树)"></a>RenderTree(渲染树)</h2><hr>
+<p>RenderTree包含了渲染网页所需的节点, 无需渲染的节点不会被添加到RenderTree中。 如：<head>，display: none的节点</head></p>
 <blockquote>
 <p><strong>注意</strong>：因为设置了visibility:hidden的元素虽不可见，但仍然占有空间，仍会被添加到RenderTree。</p>
 </blockquote>
-<h2 id="Layout-布局"><a href="#Layout-布局" class="headerlink" title="Layout(布局)"></a>Layout(布局)</h2><p>计算每个DOM元素在最终屏幕上显示的大小和位置。由于web页面的元素布局是相对的，所以其中任意一个元素的位置发生变化，都会联动的引起其他元素发生变化，这个过程叫reflow。</p>
+<h2 id="Layout-布局"><a href="#Layout-布局" class="headerlink" title="Layout(布局)"></a>Layout(布局)</h2><hr>
+<p>计算每个DOM元素在最终屏幕上显示的大小和位置。由于web页面的元素布局是相对的，所以其中任意一个元素的位置发生变化，都会联动的引起其他元素发生变化，这个过程叫reflow。</p>
 <blockquote>
 <p><strong>注意</strong>：影响web性能的一个重要的问题就是repaint和reflow。</p>
 </blockquote>
@@ -206,9 +211,12 @@
 <li>浏览器视窗改变</li>
 <li>与大小位置相关的CSS属性改变</li>
 </ul>
-<h2 id="Paint-绘制"><a href="#Paint-绘制" class="headerlink" title="Paint(绘制)"></a>Paint(绘制)</h2><p>根据background，border，box-shadow等样式，将Layout生成的区域填充为最终将显示在屏幕上的像素</p>
-<h2 id="Composite-渲染层合并"><a href="#Composite-渲染层合并" class="headerlink" title="Composite(渲染层合并)"></a>Composite(渲染层合并)</h2><p>按照合理的顺序合并图层然后显示到屏幕上。</p>
-<h2 id="三种渲染流程"><a href="#三种渲染流程" class="headerlink" title="三种渲染流程"></a>三种渲染流程</h2><p>实际场景下，大概会有三种常见的渲染流程：</p>
+<h2 id="Paint-绘制"><a href="#Paint-绘制" class="headerlink" title="Paint(绘制)"></a>Paint(绘制)</h2><hr>
+<p>根据background，border，box-shadow等样式，将Layout生成的区域填充为最终将显示在屏幕上的像素</p>
+<h2 id="Composite-渲染层合并"><a href="#Composite-渲染层合并" class="headerlink" title="Composite(渲染层合并)"></a>Composite(渲染层合并)</h2><hr>
+<p>按照合理的顺序合并图层然后显示到屏幕上。</p>
+<h2 id="三种渲染流程"><a href="#三种渲染流程" class="headerlink" title="三种渲染流程"></a>三种渲染流程</h2><hr>
+<p>实际场景下，大概会有三种常见的渲染流程：</p>
 <ul>
 <li>JavaScript -&gt; CSS -&gt; Layout -&gt; Paint -&gt; Composite</li>
 <li>JavaScript -&gt; CSS -&gt; Paint -&gt; Composite</li>
@@ -217,8 +225,10 @@
 </blockquote>
 </li>
 </ul>
-<h1 id="优化CSS"><a href="#优化CSS" class="headerlink" title="优化CSS"></a>优化CSS</h1><p>浏览器会在DOM和CSSOM加载完开始渲染页面。</p>
-<h2 id="避免CSS阻塞初次渲染"><a href="#避免CSS阻塞初次渲染" class="headerlink" title="避免CSS阻塞初次渲染"></a>避免CSS阻塞初次渲染</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;style&gt;/* styles here */&lt;/style&gt;</div><div class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;index.css&quot;&gt;</div></pre></td></tr></table></figure>
+<h1 id="优化CSS"><a href="#优化CSS" class="headerlink" title="优化CSS"></a>优化CSS</h1><hr>
+<p>浏览器会在DOM和CSSOM加载完开始渲染页面。</p>
+<h2 id="避免CSS阻塞初次渲染"><a href="#避免CSS阻塞初次渲染" class="headerlink" title="避免CSS阻塞初次渲染"></a>避免CSS阻塞初次渲染</h2><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;style&gt;/* styles here */&lt;/style&gt;</div><div class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;index.css&quot;&gt;</div></pre></td></tr></table></figure>
 <p>通过以上两种方式定义的CSS，均会阻塞初次渲染。浏览器会在解析完CSS后，再进行渲染。这是为了防止样式突变带来的抖动。通过link标签引入的CSS阻塞的时间可能更长，因为加载它需要一个网络来回时间</p>
 <h3 id="media-query"><a href="#media-query" class="headerlink" title="media query"></a>media query</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;index_print.css&quot; media=&quot;print&quot;&gt;</div></pre></td></tr></table></figure>
 <p>此样式表仍会加载。当浏览器环境不匹配媒体查询条件时，该样式表不会阻塞渲染。我们可针对不同媒体环境拆分CSS文件，并为link标签添加媒体查询，避免为了加载非关键CSS资源，而阻塞初次渲染</p>
@@ -256,8 +266,11 @@
 </tr>
 </tbody>
 </table>
-<h2 id="减少需要执行样式计算的元素个数"><a href="#减少需要执行样式计算的元素个数" class="headerlink" title="减少需要执行样式计算的元素个数"></a>减少需要执行样式计算的元素个数</h2><p>由于浏览器的优化，现代浏览器的样式计算直接对目标元素执行，而不是对整个页面执行，所以我们应该尽可能减少需要执行样式计算的元素的个数。</p>
-<h1 id="JavaScript优化"><a href="#JavaScript优化" class="headerlink" title="JavaScript优化"></a>JavaScript优化</h1><h2 id="避免Javascript阻塞HTML-Parser-解析器"><a href="#避免Javascript阻塞HTML-Parser-解析器" class="headerlink" title="避免Javascript阻塞HTML Parser(解析器)"></a>避免Javascript阻塞HTML Parser(解析器)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;-- inline js --&gt;</div><div class="line">&lt;script&gt;/* app logics here */&lt;/script&gt;</div><div class="line"></div><div class="line">&lt;-- external js --&gt;</div><div class="line">&lt;script src=&quot;somescript.js&quot;&gt;&lt;/script&gt;</div></pre></td></tr></table></figure>
+<h2 id="减少需要执行样式计算的元素个数"><a href="#减少需要执行样式计算的元素个数" class="headerlink" title="减少需要执行样式计算的元素个数"></a>减少需要执行样式计算的元素个数</h2><hr>
+<p>由于浏览器的优化，现代浏览器的样式计算直接对目标元素执行，而不是对整个页面执行，所以我们应该尽可能减少需要执行样式计算的元素的个数。</p>
+<h1 id="JavaScript优化"><a href="#JavaScript优化" class="headerlink" title="JavaScript优化"></a>JavaScript优化</h1><hr>
+<h2 id="避免Javascript阻塞HTML-Parser-解析器"><a href="#避免Javascript阻塞HTML-Parser-解析器" class="headerlink" title="避免Javascript阻塞HTML Parser(解析器)"></a>避免Javascript阻塞HTML Parser(解析器)</h2><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;-- inline js --&gt;</div><div class="line">&lt;script&gt;/* app logics here */&lt;/script&gt;</div><div class="line"></div><div class="line">&lt;-- external js --&gt;</div><div class="line">&lt;script src=&quot;somescript.js&quot;&gt;&lt;/script&gt;</div></pre></td></tr></table></figure>
 <p>通过以上两种方式引入js均会阻塞HTML parser，因而会阻塞出现在脚本后面的HTML标记的渲染。而外部script阻塞的时间一般更长，因为可能包含了一个网络来回时间。</p>
 <p>Javascript可以通过document.write修改HTML文档流，因此在执行js时，浏览器会暂停解析DOM的工作。</p>
 <h3 id="CSS阻塞JS"><a href="#CSS阻塞JS" class="headerlink" title="CSS阻塞JS"></a>CSS阻塞JS</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;-- inline js --&gt;</div><div class="line">&lt;script&gt;/* app logics here */&lt;/script&gt;</div><div class="line"></div><div class="line">&lt;-- external js --&gt;</div><div class="line">&lt;script src=&quot;somescript.js&quot;&gt;&lt;/script&gt;</div></pre></td></tr></table></figure>
@@ -302,17 +315,25 @@
 </tr>
 </tbody>
 </table>
-<h2 id="用requestAnimationFrame代替setTimeout或setInterval"><a href="#用requestAnimationFrame代替setTimeout或setInterval" class="headerlink" title="用requestAnimationFrame代替setTimeout或setInterval"></a>用requestAnimationFrame代替setTimeout或setInterval</h2><p>setTimeout(callback)和setInterval(callback)无法保证callback函数的执行时机，很可能在帧结束的时候执行，从而导致丢帧。requestAnimationFrame(callback)可以保证callback函数在每帧动画开始的时候执行。</p>
+<h2 id="用requestAnimationFrame代替setTimeout或setInterval"><a href="#用requestAnimationFrame代替setTimeout或setInterval" class="headerlink" title="用requestAnimationFrame代替setTimeout或setInterval"></a>用requestAnimationFrame代替setTimeout或setInterval</h2><hr>
+<p>setTimeout(callback)和setInterval(callback)无法保证callback函数的执行时机，很可能在帧结束的时候执行，从而导致丢帧。requestAnimationFrame(callback)可以保证callback函数在每帧动画开始的时候执行。</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/1158202-e144d3fcbe900a0c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
 <blockquote>
 <p>帧丢失  </p>
 </blockquote>
-<h2 id="用Web-Worker去处理耗时的JS代码"><a href="#用Web-Worker去处理耗时的JS代码" class="headerlink" title="用Web Worker去处理耗时的JS代码"></a>用Web Worker去处理耗时的JS代码</h2><p>JavaScript代码运行在浏览器的主线程上，与此同时，浏览器的主线程还负责样式计算、布局、绘制的工作，如果JavaScript代码运行时间过长，就会阻塞其他渲染工作，很可能会导致丢帧。</p>
+<h2 id="用Web-Worker去处理耗时的JS代码"><a href="#用Web-Worker去处理耗时的JS代码" class="headerlink" title="用Web Worker去处理耗时的JS代码"></a>用Web Worker去处理耗时的JS代码</h2><hr>
+<p>JavaScript代码运行在浏览器的主线程上，与此同时，浏览器的主线程还负责样式计算、布局、绘制的工作，如果JavaScript代码运行时间过长，就会阻塞其他渲染工作，很可能会导致丢帧。</p>
 <p>每帧的渲染应该在16ms内完成，但在动画过程中，由于已经被占用了不少时间，所以JavaScript代码运行耗时应该控制在3-4毫秒。<br>如果真的有特别耗时且不操作DOM元素的纯计算工作，可以考虑放到Web Workers中执行。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var dataSortWorker = new Worker(&quot;sort-worker.js&quot;);</div><div class="line"></div><div class="line">dataSortWorker.postMesssage(dataToSort);</div><div class="line"></div><div class="line">// 主线程不受Web Workers线程干扰</div><div class="line">dataSortWorker.addEventListener(&apos;message&apos;, function(evt) &#123;</div><div class="line">    var sortedData = e.data;</div><div class="line"></div><div class="line">    // Web Workers线程执行结束</div><div class="line">    // ...</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<h2 id="用多个frame去处理DOM元素的更新"><a href="#用多个frame去处理DOM元素的更新" class="headerlink" title="用多个frame去处理DOM元素的更新"></a>用多个frame去处理DOM元素的更新</h2><p>由于Web Workers不能操作DOM元素的限制，所以只能做一些纯计算的工作，对于很多需要操作DOM元素的逻辑，可以考虑分步处理，把任务分为若干个小任务，每个任务都放到requestAnimationFrame中回调执行。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">var taskList = breakBigTaskIntoMicroTasks(monsterTaskList);</div><div class="line"></div><div class="line">requestAnimationFrame(processTaskList);</div><div class="line"></div><div class="line">function processTaskList(taskStartTime) &#123;</div><div class="line">    var nextTask = taskList.pop();</div><div class="line"></div><div class="line">    // 执行小任务</div><div class="line">    processTask(nextTask);</div><div class="line"></div><div class="line">    if (taskList.length &gt; 0) &#123;</div><div class="line">        requestAnimationFrame(processTaskList);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h1 id="Layout优化"><a href="#Layout优化" class="headerlink" title="Layout优化"></a>Layout优化</h1><h2 id="避免触发布局"><a href="#避免触发布局" class="headerlink" title="避免触发布局"></a>避免触发布局</h2><p>当修改了元素的属性之后，浏览器将会检查为了使这个修改生效是否需要重新计算布局以及更新渲染树，对于DOM元素的“几何属性”修改，比如width/height/left/top等，都需要重新计算布局。</p>
-<h2 id="使用flexbox替代老的布局模型"><a href="#使用flexbox替代老的布局模型" class="headerlink" title="使用flexbox替代老的布局模型"></a>使用flexbox替代老的布局模型</h2><p>老的布局模型以相对/绝对/浮动的方式将元素定位到屏幕上。Floxbox布局模型用流式布局的方式将元素定位到屏幕上。<br>通过一个小实验可以看出两种布局模型的性能差距，同样对1300个元素布局，浮动布局耗时14.3ms，Flexbox布局耗时3.5ms<br><img src="http://upload-images.jianshu.io/upload_images/1158202-f87cb5e6f24ac659.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<h1 id="其他优化"><a href="#其他优化" class="headerlink" title="其他优化"></a>其他优化</h1><h2 id="Font"><a href="#Font" class="headerlink" title="Font"></a>Font</h2><h3 id="Font阻塞内容渲染"><a href="#Font阻塞内容渲染" class="headerlink" title="Font阻塞内容渲染"></a>Font阻塞内容渲染</h3><ul>
+<h2 id="用多个frame去处理DOM元素的更新"><a href="#用多个frame去处理DOM元素的更新" class="headerlink" title="用多个frame去处理DOM元素的更新"></a>用多个frame去处理DOM元素的更新</h2><hr>
+<p>由于Web Workers不能操作DOM元素的限制，所以只能做一些纯计算的工作，对于很多需要操作DOM元素的逻辑，可以考虑分步处理，把任务分为若干个小任务，每个任务都放到requestAnimationFrame中回调执行。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">var taskList = breakBigTaskIntoMicroTasks(monsterTaskList);</div><div class="line"></div><div class="line">requestAnimationFrame(processTaskList);</div><div class="line"></div><div class="line">function processTaskList(taskStartTime) &#123;</div><div class="line">    var nextTask = taskList.pop();</div><div class="line"></div><div class="line">    // 执行小任务</div><div class="line">    processTask(nextTask);</div><div class="line"></div><div class="line">    if (taskList.length &gt; 0) &#123;</div><div class="line">        requestAnimationFrame(processTaskList);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="Layout优化"><a href="#Layout优化" class="headerlink" title="Layout优化"></a>Layout优化</h1><hr>
+<h2 id="避免触发布局"><a href="#避免触发布局" class="headerlink" title="避免触发布局"></a>避免触发布局</h2><hr>
+<p>当修改了元素的属性之后，浏览器将会检查为了使这个修改生效是否需要重新计算布局以及更新渲染树，对于DOM元素的“几何属性”修改，比如width/height/left/top等，都需要重新计算布局。</p>
+<h2 id="使用flexbox替代老的布局模型"><a href="#使用flexbox替代老的布局模型" class="headerlink" title="使用flexbox替代老的布局模型"></a>使用flexbox替代老的布局模型</h2><hr>
+<p>老的布局模型以相对/绝对/浮动的方式将元素定位到屏幕上。Floxbox布局模型用流式布局的方式将元素定位到屏幕上。<br>通过一个小实验可以看出两种布局模型的性能差距，同样对1300个元素布局，浮动布局耗时14.3ms，Flexbox布局耗时3.5ms<br><img src="http://upload-images.jianshu.io/upload_images/1158202-f87cb5e6f24ac659.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<h1 id="其他优化"><a href="#其他优化" class="headerlink" title="其他优化"></a>其他优化</h1><hr>
+<h2 id="Font"><a href="#Font" class="headerlink" title="Font"></a>Font</h2><hr>
+<h3 id="Font阻塞内容渲染"><a href="#Font阻塞内容渲染" class="headerlink" title="Font阻塞内容渲染"></a>Font阻塞内容渲染</h3><ul>
 <li>浏览器为了避免FOUT(Flash Of Unstyled Text)，会尽量等待字体加载完成后，再显示应用了该字体的内容</li>
 <li>只有当字体超过一段时间仍未加载成功时，浏览器才会降级使用系统字体。每个浏览器都规定了自己的超时时间</li>
 <li>但这也带来了FOIT(Flash Of Invisible Text)问题。内容无法尽快地被展示，导致空白。</li>
