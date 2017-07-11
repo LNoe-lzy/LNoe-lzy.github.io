@@ -285,26 +285,31 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">在head中引入外部脚本<figure class="highlight plain"><figcaption><span>src="index.js">```或内联脚本```<script>/* app logics */</script>```|是|</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">|将脚本放到body底部|否|</div><div class="line">|为脚本添加defer属性|否|</div><div class="line">|为脚本添加async属性|否|</div><div class="line"></div><div class="line">## 用requestAnimationFrame代替setTimeout或setInterval</div><div class="line">setTimeout(callback)和setInterval(callback)无法保证callback函数的执行时机，很可能在帧结束的时候执行，从而导致丢帧。requestAnimationFrame(callback)可以保证callback函数在每帧动画开始的时候执行。</div><div class="line"></div><div class="line">![image](http://upload-images.jianshu.io/upload_images/1158202-e144d3fcbe900a0c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</div><div class="line">&gt; 帧丢失  </div><div class="line"></div><div class="line">## 用Web Worker去处理耗时的JS代码</div><div class="line">JavaScript代码运行在浏览器的主线程上，与此同时，浏览器的主线程还负责样式计算、布局、绘制的工作，如果JavaScript代码运行时间过长，就会阻塞其他渲染工作，很可能会导致丢帧。</div><div class="line"></div><div class="line">每帧的渲染应该在16ms内完成，但在动画过程中，由于已经被占用了不少时间，所以JavaScript代码运行耗时应该控制在3-4毫秒。</div><div class="line">如果真的有特别耗时且不操作DOM元素的纯计算工作，可以考虑放到Web Workers中执行。</div></pre></td></tr></table></figure></td>
+<td style="text-align:center">在head中引入外部脚本<script src="index.js"></script>或内联脚本<script>/<em> app logics </em>/</script></td>
+<td style="text-align:center">是</td>
+</tr>
+<tr>
+<td style="text-align:center">将脚本放到body底部</td>
+<td style="text-align:center">否</td>
+</tr>
+<tr>
+<td style="text-align:center">为脚本添加defer属性</td>
+<td style="text-align:center">否</td>
+</tr>
+<tr>
+<td style="text-align:center">为脚本添加async属性</td>
+<td style="text-align:center">否</td>
 </tr>
 </tbody>
 </table>
-<p>var dataSortWorker = new Worker(“sort-worker.js”);</p>
-<p>dataSortWorker.postMesssage(dataToSort);</p>
-<p>// 主线程不受Web Workers线程干扰<br>dataSortWorker.addEventListener(‘message’, function(evt) {<br>    var sortedData = e.data;</p>
-<pre><code>// Web Workers线程执行结束
-// ...
-</code></pre><p>});<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">## 用多个frame去处理DOM元素的更新</div><div class="line">由于Web Workers不能操作DOM元素的限制，所以只能做一些纯计算的工作，对于很多需要操作DOM元素的逻辑，可以考虑分步处理，把任务分为若干个小任务，每个任务都放到requestAnimationFrame中回调执行。</div></pre></td></tr></table></figure></p>
-<p>var taskList = breakBigTaskIntoMicroTasks(monsterTaskList);</p>
-<p>requestAnimationFrame(processTaskList);</p>
-<p>function processTaskList(taskStartTime) {<br>    var nextTask = taskList.pop();</p>
-<pre><code>// 执行小任务
-processTask(nextTask);
-
-if (taskList.length &gt; 0) {
-    requestAnimationFrame(processTaskList);
-}
-</code></pre><p>}<br>```</p>
+<h2 id="用requestAnimationFrame代替setTimeout或setInterval"><a href="#用requestAnimationFrame代替setTimeout或setInterval" class="headerlink" title="用requestAnimationFrame代替setTimeout或setInterval"></a>用requestAnimationFrame代替setTimeout或setInterval</h2><p>setTimeout(callback)和setInterval(callback)无法保证callback函数的执行时机，很可能在帧结束的时候执行，从而导致丢帧。requestAnimationFrame(callback)可以保证callback函数在每帧动画开始的时候执行。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1158202-e144d3fcbe900a0c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<blockquote>
+<p>帧丢失  </p>
+</blockquote>
+<h2 id="用Web-Worker去处理耗时的JS代码"><a href="#用Web-Worker去处理耗时的JS代码" class="headerlink" title="用Web Worker去处理耗时的JS代码"></a>用Web Worker去处理耗时的JS代码</h2><p>JavaScript代码运行在浏览器的主线程上，与此同时，浏览器的主线程还负责样式计算、布局、绘制的工作，如果JavaScript代码运行时间过长，就会阻塞其他渲染工作，很可能会导致丢帧。</p>
+<p>每帧的渲染应该在16ms内完成，但在动画过程中，由于已经被占用了不少时间，所以JavaScript代码运行耗时应该控制在3-4毫秒。<br>如果真的有特别耗时且不操作DOM元素的纯计算工作，可以考虑放到Web Workers中执行。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var dataSortWorker = new Worker(&quot;sort-worker.js&quot;);</div><div class="line"></div><div class="line">dataSortWorker.postMesssage(dataToSort);</div><div class="line"></div><div class="line">// 主线程不受Web Workers线程干扰</div><div class="line">dataSortWorker.addEventListener(&apos;message&apos;, function(evt) &#123;</div><div class="line">    var sortedData = e.data;</div><div class="line"></div><div class="line">    // Web Workers线程执行结束</div><div class="line">    // ...</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<h2 id="用多个frame去处理DOM元素的更新"><a href="#用多个frame去处理DOM元素的更新" class="headerlink" title="用多个frame去处理DOM元素的更新"></a>用多个frame去处理DOM元素的更新</h2><p>由于Web Workers不能操作DOM元素的限制，所以只能做一些纯计算的工作，对于很多需要操作DOM元素的逻辑，可以考虑分步处理，把任务分为若干个小任务，每个任务都放到requestAnimationFrame中回调执行。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">var taskList = breakBigTaskIntoMicroTasks(monsterTaskList);</div><div class="line"></div><div class="line">requestAnimationFrame(processTaskList);</div><div class="line"></div><div class="line">function processTaskList(taskStartTime) &#123;</div><div class="line">    var nextTask = taskList.pop();</div><div class="line"></div><div class="line">    // 执行小任务</div><div class="line">    processTask(nextTask);</div><div class="line"></div><div class="line">    if (taskList.length &gt; 0) &#123;</div><div class="line">        requestAnimationFrame(processTaskList);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h1 id="Layout优化"><a href="#Layout优化" class="headerlink" title="Layout优化"></a>Layout优化</h1><h2 id="避免触发布局"><a href="#避免触发布局" class="headerlink" title="避免触发布局"></a>避免触发布局</h2><p>当修改了元素的属性之后，浏览器将会检查为了使这个修改生效是否需要重新计算布局以及更新渲染树，对于DOM元素的“几何属性”修改，比如width/height/left/top等，都需要重新计算布局。</p>
 <h2 id="使用flexbox替代老的布局模型"><a href="#使用flexbox替代老的布局模型" class="headerlink" title="使用flexbox替代老的布局模型"></a>使用flexbox替代老的布局模型</h2><p>老的布局模型以相对/绝对/浮动的方式将元素定位到屏幕上。Floxbox布局模型用流式布局的方式将元素定位到屏幕上。<br>通过一个小实验可以看出两种布局模型的性能差距，同样对1300个元素布局，浮动布局耗时14.3ms，Flexbox布局耗时3.5ms<br><img src="http://upload-images.jianshu.io/upload_images/1158202-f87cb5e6f24ac659.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
 <h1 id="其他优化"><a href="#其他优化" class="headerlink" title="其他优化"></a>其他优化</h1><h2 id="Font"><a href="#Font" class="headerlink" title="Font"></a>Font</h2><h3 id="Font阻塞内容渲染"><a href="#Font阻塞内容渲染" class="headerlink" title="Font阻塞内容渲染"></a>Font阻塞内容渲染</h3><ul>
