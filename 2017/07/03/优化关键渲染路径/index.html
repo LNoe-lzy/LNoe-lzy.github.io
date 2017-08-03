@@ -165,11 +165,12 @@
 
 
       
-<section id="intro">
-    <div class="container">
-        <div class="row col-md-offset-2">
-            <div class="col-md-8">
-    			<span class="post-meta">
+    <section id="intro">
+        <canvas id="canvas"></canvas>
+        <div class="container">
+            <div class="row col-md-offset-2">
+                <div class="col-md-8">
+                    <span class="post-meta">
       <time datetime="2017-07-03T03:45:40.000Z" itemprop="datePublished">
           2017-07-03
       </time>
@@ -180,11 +181,13 @@
     
     
 </span>
-                <h1>优化关键渲染路径</h1>
+                        <h1>
+                            优化关键渲染路径
+                        </h1>
+                </div>
             </div>
-        </div>
-        <div class="col-md-8 col-md-offset-2">
-      		<h1 id="浏览器渲染原理"><a href="#浏览器渲染原理" class="headerlink" title="浏览器渲染原理"></a>浏览器渲染原理</h1><hr>
+            <div class="col-md-8 col-md-offset-2">
+                <h1 id="浏览器渲染原理"><a href="#浏览器渲染原理" class="headerlink" title="浏览器渲染原理"></a>浏览器渲染原理</h1><hr>
 <p> <img src="https://p1.ssl.qhimg.com/t01bebad90f06c9cdb9.png" alt="image"><br> <img src="http://upload-images.jianshu.io/upload_images/1158202-6c6f3bf9f9b2c5eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
 <blockquote>
 <p>浏览器渲染流程</p>
@@ -339,10 +342,10 @@
 <li>但这也带来了FOIT(Flash Of Invisible Text)问题。内容无法尽快地被展示，导致空白。</li>
 </ul>
 
-            <div class="clearfix"></div>
-            <hr class="nogutter">
-        </div>
-        <nav class="pagination" role="pagination">
+                    <div class="clearfix"></div>
+                    <hr class="nogutter">
+            </div>
+            <nav class="pagination" role="pagination">
     
     <a class="pull-left" href="/2017/07/03/踩坑-click事件与blur事件冲突问题-input文件上传同名文件问题/" style="float: left;">
         ← 踩坑 - click事件与blur事件冲突问题 & input文件上传同名文件问题
@@ -351,13 +354,76 @@
     
 </nav>
 
-        <div class="duoshuo">
+                <div class="duoshuo">
+                    
 
 
-</div>
-    </div>
-</section>
 
+                </div>
+        </div>
+       
+        <script>
+            document.addEventListener('touchmove', function (e) {
+                e.preventDefault()
+            })
+            var c = document.getElementsByTagName('canvas')[0],
+                x = c.getContext('2d'),
+                pr = 1,
+                w = window.innerWidth,
+                h = window.innerHeight,
+                f = 90,
+                q,
+                m = Math,
+                r = 0,
+                u = m.PI * 2,
+                v = m.cos,
+                z = m.random
+            c.width = w * pr
+            c.height = h * pr
+            x.scale(pr, pr)
+            x.globalAlpha = 0.6
+
+            function i() {
+                x.clearRect(0, 0, w, h)
+                q = [{
+                    x: 0,
+                    y: h * .7 + f
+                }, {
+                    x: 0,
+                    y: h * .7 - f
+                }]
+                while (q[1].x < w + f) d(q[0], q[1])
+            }
+
+            function d(i, j) {
+                x.beginPath()
+                x.moveTo(i.x, i.y)
+                x.lineTo(j.x, j.y)
+                var k = j.x + (z() * 2 - 0.25) * f,
+                    n = y(j.y)
+                x.lineTo(k, n)
+                x.closePath()
+                r -= u / -50
+                x.fillStyle = '#' + (v(r) * 127 + 128 << 16 | v(r + u / 3) * 127 + 128 << 8 | v(r + u / 3 * 2) * 127 +
+                        128)
+                    .toString(16)
+                x.fill()
+                q[0] = q[1]
+                q[1] = {
+                    x: k,
+                    y: n
+                }
+            }
+
+            function y(p) {
+                var t = p + (z() * 2 - 1.1) * f
+                return (t > h || t < 0) ? y(p) : t
+            }
+            document.onclick = i
+            document.ontouchstart = i
+            i()
+        </script>
+    </section>
 
       
 <!-- ============================ Footer =========================== -->

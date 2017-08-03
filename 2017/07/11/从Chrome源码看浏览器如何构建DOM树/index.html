@@ -165,11 +165,12 @@
 
 
       
-<section id="intro">
-    <div class="container">
-        <div class="row col-md-offset-2">
-            <div class="col-md-8">
-    			<span class="post-meta">
+    <section id="intro">
+        <canvas id="canvas"></canvas>
+        <div class="container">
+            <div class="row col-md-offset-2">
+                <div class="col-md-8">
+                    <span class="post-meta">
       <time datetime="2017-07-11T07:07:06.000Z" itemprop="datePublished">
           2017-07-11
       </time>
@@ -180,11 +181,13 @@
     
     
 </span>
-                <h1>从Chrome源码看浏览器如何构建DOM树</h1>
+                        <h1>
+                            从Chrome源码看浏览器如何构建DOM树
+                        </h1>
+                </div>
             </div>
-        </div>
-        <div class="col-md-8 col-md-offset-2">
-      		<blockquote>
+            <div class="col-md-8 col-md-offset-2">
+                <blockquote>
 <p>原文链接: <a href="https://zhuanlan.zhihu.com/p/24911872" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/24911872</a>  </p>
 </blockquote>
 <h1 id="Chrome建DOM源码分析"><a href="#Chrome建DOM源码分析" class="headerlink" title="Chrome建DOM源码分析"></a>Chrome建DOM源码分析</h1><p>先画出构建DOM的几个关键的类的UML图，如下所示：<br><img src="http://img.waimai.baidu.com/pb/b39e126dd6ca354694304269124b777c56" alt="image"></p>
@@ -300,10 +303,10 @@
 <p>查看源码确实是一件很费时费力的工作，但是通过一番探索，能够了解浏览器的一些内在机制，至少已经可以回答上面提出来的几个问题。同时知道了Webkit/Blink借助一个栈，结合开闭标签，一步步构建DOM树，并对DOCType的标签、自定义标签的处理有了一定的了解。最后又讨论了查DOM的几种情况，明白了查找的过程。</p>
 <p>通过上面的分析，对页面渲染的第一步构建DOM应该会有一个基础的了解。</p>
 
-            <div class="clearfix"></div>
-            <hr class="nogutter">
-        </div>
-        <nav class="pagination" role="pagination">
+                    <div class="clearfix"></div>
+                    <hr class="nogutter">
+            </div>
+            <nav class="pagination" role="pagination">
     
     <a class="pull-left" href="/2017/07/17/20行代码实现JavaScript模板引擎/" style="float: left;">
         ← 20行代码实现JavaScript模板引擎
@@ -316,13 +319,76 @@
     
 </nav>
 
-        <div class="duoshuo">
+                <div class="duoshuo">
+                    
 
 
-</div>
-    </div>
-</section>
 
+                </div>
+        </div>
+       
+        <script>
+            document.addEventListener('touchmove', function (e) {
+                e.preventDefault()
+            })
+            var c = document.getElementsByTagName('canvas')[0],
+                x = c.getContext('2d'),
+                pr = 1,
+                w = window.innerWidth,
+                h = window.innerHeight,
+                f = 90,
+                q,
+                m = Math,
+                r = 0,
+                u = m.PI * 2,
+                v = m.cos,
+                z = m.random
+            c.width = w * pr
+            c.height = h * pr
+            x.scale(pr, pr)
+            x.globalAlpha = 0.6
+
+            function i() {
+                x.clearRect(0, 0, w, h)
+                q = [{
+                    x: 0,
+                    y: h * .7 + f
+                }, {
+                    x: 0,
+                    y: h * .7 - f
+                }]
+                while (q[1].x < w + f) d(q[0], q[1])
+            }
+
+            function d(i, j) {
+                x.beginPath()
+                x.moveTo(i.x, i.y)
+                x.lineTo(j.x, j.y)
+                var k = j.x + (z() * 2 - 0.25) * f,
+                    n = y(j.y)
+                x.lineTo(k, n)
+                x.closePath()
+                r -= u / -50
+                x.fillStyle = '#' + (v(r) * 127 + 128 << 16 | v(r + u / 3) * 127 + 128 << 8 | v(r + u / 3 * 2) * 127 +
+                        128)
+                    .toString(16)
+                x.fill()
+                q[0] = q[1]
+                q[1] = {
+                    x: k,
+                    y: n
+                }
+            }
+
+            function y(p) {
+                var t = p + (z() * 2 - 1.1) * f
+                return (t > h || t < 0) ? y(p) : t
+            }
+            document.onclick = i
+            document.ontouchstart = i
+            i()
+        </script>
+    </section>
 
       
 <!-- ============================ Footer =========================== -->

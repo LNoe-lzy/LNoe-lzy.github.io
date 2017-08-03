@@ -287,6 +287,7 @@ blockquote footer {
 .container {
   padding-right: 20px;
   padding-left: 20px;
+  z-index: 1000;
 }
 @media (min-width: 768px) {
 	.container {
@@ -3443,6 +3444,14 @@ footer .footer_bottom {
 .icon-facebook:before { content: "\e62f"; }
 .icon-sina-weibo:before { content: "\e666"; }
 .icon-github:before { content: "\e636"; }
+#canvas {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	z-index: 1;
+}
 /*---------------- END ------------------------*/
 
 @charset "utf-8";

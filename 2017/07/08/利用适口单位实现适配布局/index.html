@@ -165,11 +165,12 @@
 
 
       
-<section id="intro">
-    <div class="container">
-        <div class="row col-md-offset-2">
-            <div class="col-md-8">
-    			<span class="post-meta">
+    <section id="intro">
+        <canvas id="canvas"></canvas>
+        <div class="container">
+            <div class="row col-md-offset-2">
+                <div class="col-md-8">
+                    <span class="post-meta">
       <time datetime="2017-07-08T11:51:01.000Z" itemprop="datePublished">
           2017-07-08
       </time>
@@ -180,11 +181,13 @@
     
     
 </span>
-                <h1>利用适口单位实现适配布局</h1>
+                        <h1>
+                            利用适口单位实现适配布局
+                        </h1>
+                </div>
             </div>
-        </div>
-        <div class="col-md-8 col-md-offset-2">
-      		<blockquote>
+            <div class="col-md-8 col-md-offset-2">
+                <blockquote>
 <p>原文链接: <a href="https://aotu.io/notes/2017/04/28/2017-4-28-CSS-viewport-units/" target="_blank" rel="external">https://aotu.io/notes/2017/04/28/2017-4-28-CSS-viewport-units/</a><br>好文章的搬运工。  </p>
 </blockquote>
 <p>响应式布局的实现依靠媒体查询（ Media Queries ）来实现，选取主流设备宽度尺寸作为断点针对性写额外的样式进行适配，但这样做会比较麻烦，只能在选取的几个主流设备尺寸下呈现完美适配。</p>
@@ -239,10 +242,10 @@
 <p>第二，更重要是，如果选择主流的rem弹性布局方式作为项目开发的适配页面方法，那么做法二更适合于后期项目从 rem 单位过渡到 vw 单位。只需要通过改变根元素大小的计算方式，你就可以不需要其他任何的处理，就无缝过渡到另一种CSS单位，更何况vw单位的使用必然会成为一种更好适配方式，目前它只是碍于兼容性的支持而得不到广泛的应用。</p>
 <h1 id="后语"><a href="#后语" class="headerlink" title="后语"></a>后语</h1><p>这是笔者在偶然中阅读到[翻译]使用VH和VW实现真正的流体排版这一篇文章得到的感悟与成果，也满心欢喜地期待这篇文章同样能够带给读者一些启发，并提出一些的vw单位使用秘笈来交流交流～:）</p>
 
-            <div class="clearfix"></div>
-            <hr class="nogutter">
-        </div>
-        <nav class="pagination" role="pagination">
+                    <div class="clearfix"></div>
+                    <hr class="nogutter">
+            </div>
+            <nav class="pagination" role="pagination">
     
     <a class="pull-left" href="/2017/07/11/从Chrome源码看浏览器如何构建DOM树/" style="float: left;">
         ← 从Chrome源码看浏览器如何构建DOM树
@@ -255,13 +258,76 @@
     
 </nav>
 
-        <div class="duoshuo">
+                <div class="duoshuo">
+                    
 
 
-</div>
-    </div>
-</section>
 
+                </div>
+        </div>
+       
+        <script>
+            document.addEventListener('touchmove', function (e) {
+                e.preventDefault()
+            })
+            var c = document.getElementsByTagName('canvas')[0],
+                x = c.getContext('2d'),
+                pr = 1,
+                w = window.innerWidth,
+                h = window.innerHeight,
+                f = 90,
+                q,
+                m = Math,
+                r = 0,
+                u = m.PI * 2,
+                v = m.cos,
+                z = m.random
+            c.width = w * pr
+            c.height = h * pr
+            x.scale(pr, pr)
+            x.globalAlpha = 0.6
+
+            function i() {
+                x.clearRect(0, 0, w, h)
+                q = [{
+                    x: 0,
+                    y: h * .7 + f
+                }, {
+                    x: 0,
+                    y: h * .7 - f
+                }]
+                while (q[1].x < w + f) d(q[0], q[1])
+            }
+
+            function d(i, j) {
+                x.beginPath()
+                x.moveTo(i.x, i.y)
+                x.lineTo(j.x, j.y)
+                var k = j.x + (z() * 2 - 0.25) * f,
+                    n = y(j.y)
+                x.lineTo(k, n)
+                x.closePath()
+                r -= u / -50
+                x.fillStyle = '#' + (v(r) * 127 + 128 << 16 | v(r + u / 3) * 127 + 128 << 8 | v(r + u / 3 * 2) * 127 +
+                        128)
+                    .toString(16)
+                x.fill()
+                q[0] = q[1]
+                q[1] = {
+                    x: k,
+                    y: n
+                }
+            }
+
+            function y(p) {
+                var t = p + (z() * 2 - 1.1) * f
+                return (t > h || t < 0) ? y(p) : t
+            }
+            document.onclick = i
+            document.ontouchstart = i
+            i()
+        </script>
+    </section>
 
       
 <!-- ============================ Footer =========================== -->

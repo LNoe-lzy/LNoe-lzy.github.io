@@ -165,11 +165,12 @@
 
 
       
-<section id="intro">
-    <div class="container">
-        <div class="row col-md-offset-2">
-            <div class="col-md-8">
-    			<span class="post-meta">
+    <section id="intro">
+        <canvas id="canvas"></canvas>
+        <div class="container">
+            <div class="row col-md-offset-2">
+                <div class="col-md-8">
+                    <span class="post-meta">
       <time datetime="2017-07-03T14:37:03.000Z" itemprop="datePublished">
           2017-07-03
       </time>
@@ -180,11 +181,13 @@
     
     
 </span>
-                <h1>踩坑 - click事件与blur事件冲突问题 & input文件上传同名文件问题</h1>
+                        <h1>
+                            踩坑 - click事件与blur事件冲突问题 & input文件上传同名文件问题
+                        </h1>
+                </div>
             </div>
-        </div>
-        <div class="col-md-8 col-md-offset-2">
-      		<h1 id="click事件与blur事件冲突问题"><a href="#click事件与blur事件冲突问题" class="headerlink" title="click事件与blur事件冲突问题"></a>click事件与blur事件冲突问题</h1><h2 id="click事件与blur事件"><a href="#click事件与blur事件" class="headerlink" title="click事件与blur事件"></a>click事件与blur事件</h2><ul>
+            <div class="col-md-8 col-md-offset-2">
+                <h1 id="click事件与blur事件冲突问题"><a href="#click事件与blur事件冲突问题" class="headerlink" title="click事件与blur事件冲突问题"></a>click事件与blur事件冲突问题</h1><h2 id="click事件与blur事件"><a href="#click事件与blur事件" class="headerlink" title="click事件与blur事件"></a>click事件与blur事件</h2><ul>
 <li>blur事件: 表单事件，元素失去焦点时候触发，不会冒泡;</li>
 <li>click事件: 当点击元素的时候触发，所有元素均有此事件，会冒泡；<blockquote>
 <p>注意:<br>除了focus和blur事件，其他的表单事件均会冒泡。</p>
@@ -208,10 +211,10 @@
 <h3 id="2-remove掉input元素"><a href="#2-remove掉input元素" class="headerlink" title="2. remove掉input元素"></a>2. remove掉input元素</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">// HTML</div><div class="line">&lt;form id=&quot;form&quot;&gt;</div><div class="line">    &lt;input type=&quot;file&quot; id=&quot;file&quot; /&gt;</div><div class="line">&lt;/form&gt;</div><div class="line">// js </div><div class="line">let file = document.querySelector(&apos;#file&apos;);</div><div class="line">file.addEventListener(&apos;change&apos;, () =&gt; &#123;</div><div class="line">    console.log(&apos;change&apos;);</div><div class="line">    // ...</div><div class="line">    file.remove();</div><div class="line">    document.querySelector(&apos;#form&apos;).innerHTML = &apos;&lt;input type=&quot;file&quot; id=&quot;file&quot; /&gt;&apos;;</div><div class="line">    </div><div class="line">&#125;);</div><div class="line"></div><div class="line">// 第一次上传 file.xlsx</div><div class="line">// change</div><div class="line">// 第二次上传 file.xlsx</div><div class="line">// change</div></pre></td></tr></table></figure>
 <p>缺点：这种方法需要修改dom结构了dom结构，可能导致节点树的回流。</p>
 <h3 id="3-更新change事件"><a href="#3-更新change事件" class="headerlink" title="3. 更新change事件"></a>3. 更新change事件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">// HTML</div><div class="line">&lt;form id=&quot;form&quot;&gt;</div><div class="line">    &lt;input type=&quot;file&quot; id=&quot;file&quot; /&gt;</div><div class="line">&lt;/form&gt;</div><div class="line">// js </div><div class="line">let file = document.querySelector(&apos;#file&apos;);</div><div class="line">file.addEventListener(&apos;change&apos;, () =&gt; &#123;</div><div class="line">    console.log(&apos;change&apos;);</div><div class="line">    // ...</div><div class="line">    file.remove();</div><div class="line">    file.onchange = function () &#123;</div><div class="line">        // ...</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;);</div><div class="line"></div><div class="line">// 第一次上传 file.xlsx</div><div class="line">// change</div><div class="line">// 第二次上传 file.xlsx</div><div class="line">// change</div></pre></td></tr></table></figure>
-            <div class="clearfix"></div>
-            <hr class="nogutter">
-        </div>
-        <nav class="pagination" role="pagination">
+                    <div class="clearfix"></div>
+                    <hr class="nogutter">
+            </div>
+            <nav class="pagination" role="pagination">
     
     <a class="pull-left" href="/2017/07/08/利用适口单位实现适配布局/" style="float: left;">
         ← 利用适口单位实现适配布局
@@ -224,13 +227,76 @@
     
 </nav>
 
-        <div class="duoshuo">
+                <div class="duoshuo">
+                    
 
 
-</div>
-    </div>
-</section>
 
+                </div>
+        </div>
+       
+        <script>
+            document.addEventListener('touchmove', function (e) {
+                e.preventDefault()
+            })
+            var c = document.getElementsByTagName('canvas')[0],
+                x = c.getContext('2d'),
+                pr = 1,
+                w = window.innerWidth,
+                h = window.innerHeight,
+                f = 90,
+                q,
+                m = Math,
+                r = 0,
+                u = m.PI * 2,
+                v = m.cos,
+                z = m.random
+            c.width = w * pr
+            c.height = h * pr
+            x.scale(pr, pr)
+            x.globalAlpha = 0.6
+
+            function i() {
+                x.clearRect(0, 0, w, h)
+                q = [{
+                    x: 0,
+                    y: h * .7 + f
+                }, {
+                    x: 0,
+                    y: h * .7 - f
+                }]
+                while (q[1].x < w + f) d(q[0], q[1])
+            }
+
+            function d(i, j) {
+                x.beginPath()
+                x.moveTo(i.x, i.y)
+                x.lineTo(j.x, j.y)
+                var k = j.x + (z() * 2 - 0.25) * f,
+                    n = y(j.y)
+                x.lineTo(k, n)
+                x.closePath()
+                r -= u / -50
+                x.fillStyle = '#' + (v(r) * 127 + 128 << 16 | v(r + u / 3) * 127 + 128 << 8 | v(r + u / 3 * 2) * 127 +
+                        128)
+                    .toString(16)
+                x.fill()
+                q[0] = q[1]
+                q[1] = {
+                    x: k,
+                    y: n
+                }
+            }
+
+            function y(p) {
+                var t = p + (z() * 2 - 1.1) * f
+                return (t > h || t < 0) ? y(p) : t
+            }
+            document.onclick = i
+            document.ontouchstart = i
+            i()
+        </script>
+    </section>
 
       
 <!-- ============================ Footer =========================== -->
