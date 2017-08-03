@@ -184,7 +184,7 @@ body {
 p {
 	color: #333;
 	font-size: 14px;
-	margin-bottom: 1.2em;
+	margin: 1em;
 }
 
 i {
@@ -204,9 +204,10 @@ h4,
 h5,
 h6 {
 	margin-top: 0;
-	 font-weight: 200; 
+	font-weight: 200;
+	margin: 1em 0;
 	color: #151515;
-	font-family: "PingFang SC", "Lantinghei SC", "Microsoft Yahei", "Hiragino Sans GB", "Microsoft Sans Serif", "WenQuanYi Micro Hei", sans;	
+	font-family: "PingFang SC", "Lantinghei SC", "Microsoft Yahei", "Hiragino Sans GB", "Microsoft Sans Serif", "WenQuanYi Micro Hei", sans;
 }
 
 h1 {
@@ -231,7 +232,6 @@ h3 {
 	font-style: normal;
 	line-height: 37px;
 	font-size: 1.4em;
-	margin-top: 0;
 }
 
 h4 {
@@ -278,12 +278,6 @@ a:link {
 	text-decoration: none;
 }
 
-[class*="col-"] {
-	padding-top: 15px;
-	padding-bottom: 15px;
-	border: none;
-}
-
 
 /* Responsive tables fix for Firefox */
 
@@ -294,13 +288,22 @@ a:link {
 }
 
 blockquote {
-	margin: 40px 0;
+	border-left: 2px solid #1abc9c;
+	padding: .5em 1em;
+	margin: 1em 0;
 }
 
 blockquote p {
 	font-family: 'Georgia', "Open Sans", "Helvetica Neue", "Helvetica", "Hiragino Sans GB", "Microsoft YaHei", "Source Han Sans CN", "WenQuanYi Micro Hei", Arial, sans-serif;
-	font-style: italic;
 	font-size: 15px;
+	margin: 0;
+	color: #999;
+	font-weight: 400;
+}
+
+blockquote a {
+	color: #6190e8;
+	border-bottom: 1px dotted #6190e8;
 }
 
 blockquote footer {
@@ -357,8 +360,7 @@ a.meta,
 }
 
 hr {
-	margin-top: 40px;
-	margin-bottom: 40px;
+	border: 1px dotted #eee
 }
 
 
@@ -4141,18 +4143,11 @@ footer .footer_bottom {
 	color: gray;
 	padding-left: 10px;
 	padding-right: 10px;
-	border: 1px solid gray;
-	border-radius: 20px;
 	max-width: 100%;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
-	margin-bottom: 10px;
-}
-
-.pagination a:hover {
-	background-color: gray;
-	color: #fff;
+	margin-bottom: 30px;
 }
 
 .duoshuo {
@@ -4233,7 +4228,7 @@ footer .footer_bottom {
 	left: 0;
 	bottom: 0;
 	right: 0;
-	z-index: 1;
+	z-index: -1;
 }
 
 
