@@ -17,7 +17,7 @@
 <!--<![endif]-->
 
 <head>
-  <title>Archives: 2017/8 | Leezy__</title>
+  <title>JavaScript - 原型&amp;原型链 | Leezy__</title>
   
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -45,7 +45,7 @@
 </head>
 
 <!--
-<body class="home-template">
+<body class="post-template">
 -->
 <body id="index" class="lightnav animsition">
 
@@ -146,78 +146,122 @@
         </div>
 
 
-      <!-- ============================ Hero Image =========================== -->
-
-<section id="hero" class="scrollme">
-    <div class="container-fluid element-img" style="background: url(/img/bg_img.jpg) no-repeat center center fixed;background-size: cover">
-        <div class="row">
-            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 vertical-align cover boost text-center">
-                <div class="center-me animateme" data-when="exit" data-from="0" data-to="0.6" data-opacity="0" data-translatey="100">
-                    <div>
-                        
-                        <h2>YOU'VE MADE A <span>BRAVE</span> DECISION, WELCOME.</h2>
-                        <p></p>
-                        
-                        <h2></h2>
-                        <p>每一个不曾起舞的日子都是对生命的辜负。</p>
-                        
-
-                    </div>
+      
+    <section id="intro">
+        <canvas id="canvas"></canvas>
+        <div class="container">
+            <div class="row col-md-offset-2">
+                <div class="col-md-8">
+                    <span class="post-meta">
+      <time datetime="2017-08-24T11:35:07.000Z" itemprop="datePublished">
+          2017-08-24
+      </time>
+    
+    
+    | 
+    <a href='/tags/前端开发/'>前端开发</a>
+    
+    
+</span>
+                        <h1>
+                            JavaScript - 原型&原型链
+                        </h1>
                 </div>
             </div>
-            <!-- // .col-md-12 -->
-        </div>
-        <div class="herofade beige-dk"></div>
-    </div>
-</section>
+            <div class="col-md-8 col-md-offset-2">
+                <h1 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h1><p>JavaScript没有类（class）的概念的（ES6 中的class也只不过是语法糖，并非真正意义上的类），而在JavaScript中，在 JavaScript 中，除了 String, Number, Boolean Undefined, Null, Symbol 这 6 种基本类型外，其他所有数据都是 Object 类型。<br>在基于类的传统面向对象的编程语言中，对象由类实例化而来，实例化的过程中，类的属性和方法会拷贝到这个对象中；对象的继承实际上是类的继承，在定义子类继承于父类时，子类会将父类的属性和方法拷贝到自身当中。因此，这类语言中，对象创建和继承行为都是通过拷贝完成的。但在JavaScript中，对象的创建、对象的继承是不存在拷贝行为的。</p>
+<h1 id="原型和原型链"><a href="#原型和原型链" class="headerlink" title="原型和原型链"></a>原型和原型链</h1><p>原型是为了共享多个对象之间的一些共有特性（属性或方法），这个功能也是任何一门面向对象的编程语言必须具备的。A、B两个对象的原型相同，那么它们必然有一些相同的特征。<br>JavaScript中的对象，都有一个内置属性<code>[Prototype]</code>，指向这个对象的原型对象。当查找一个属性或方法时，如果在当前对象中找不到定义，会继续在当前对象的原型对象中查找；如果原型对象中依然没有找到，会继续在原型对象的原型中查找；如此继续，直到找到为止，或者查找到最顶层的原型对象中也没有找到(<code>Object.prototype</code>)，就结束查找，返回undefined。可以看出，这个查找过程是一个链式的查找，每个对象都有一个到它自身原型对象的链接，这些链接组件的整个链条就是原型链。</p>
+<blockquote>
+<p><code>Object.prototype</code>: 最顶层的原型对象，这个对象中保存了最常用的方法，如toString、valueOf、hasOwnProperty等，因此我们才能在任何对象中使用这些方法。</p>
+</blockquote>
+<h2 id="原型的构建"><a href="#原型的构建" class="headerlink" title="原型的构建"></a>原型的构建</h2><h3 id="字面量方式"><a href="#字面量方式" class="headerlink" title="字面量方式"></a>字面量方式</h3><p>当通过字面量方式创建对象时，它的原型就是Object.prototype。虽然我们无法直接访问内置属性<code>[[Prototype]]</code>，但我们可以通过<code>Object.getPrototypeOf()</code>或对象的<code>__proto__</code>获取对象的原型。<br>let obj = {};<br>Object.getPrototypeOf(obj) === Object.prototype;   // true<br>(obj).<strong>proto</strong>  === Object.prototype;            // true</p>
+<h3 id="函数的构造调用"><a href="#函数的构造调用" class="headerlink" title="函数的构造调用"></a>函数的构造调用</h3><p>通过函数的构造调用（注意，我们不把它叫做构造函数，因为JavaScript中同样没有构造函数的概念，所有的函数都是平等的，只不过用来创建对象时，函数的调用方式不同而已）也是一种常用的创建对象的方式。基于同一个函数创建出来的对象，理应可以共享一些相同的属性或方法，但这些属性或方法如果放在Object.prototype里，那么所有的对象都可以使用它们了，作用域太大，显然不合适。于是，JavaScript在定义一个函数时，同时为这个函数定义了一个 默认的prototype属性，所有共享的属性或方法，都放到这个属性所指向的对象中。由此看出，<strong> 通过一个函数的构造调用创建的对象，它的原型就是这个函数的prototype指向的对象。</strong><br>let f = function(name) { this.name = name };<br>f.prototype.getName = function() { return this.name; };<br>let obj = new f(‘123’);<br>obj.getName();                  // 123<br>obj.<strong>proto</strong> === f.prototype;  // true</p>
+<h3 id="Object-create（）"><a href="#Object-create（）" class="headerlink" title="Object.create（）"></a>Object.create（）</h3><p>第三种常用的创建对象的方式是使用Object.create()。<strong> 这个方法会以你传入的对象作为创建出来的对象的原型。</strong><br>let obj = {};<br>let obj2 = Object.create(obj);<br>obj2.<strong>proto</strong> === obj;       // true<br>这种方式还可以模拟对象的“继承”行为。<br>function Foo(name) {<br>this.name = name;<br>}<br>Foo.prototype.myName = function() {<br>return this.name;<br>};<br>function Bar (name,label) {<br>Foo.call( this, name );   //<br>this.label = label;<br>}<br>let  temp = Object.create( Foo.prototype );<br>Bar.prototype = temp;<br>Bar.prototype.myLabel = function() {<br>return this.label;<br>};<br>let a = new Bar( “a”, “obj a” );<br>a.myName(); // “a”<br>a.myLabel(); // “obj a”<br>a.<strong>proto</strong>.<strong>proto</strong> === Foo.prototype;  //true</p>
+<h2 id="proto和prototype"><a href="#proto和prototype" class="headerlink" title="proto和prototype"></a><strong>proto</strong>和prototype</h2><p><strong>proto</strong>指向当前对象的原型，prototype是函数才具有的属性，默认情况下，new 一个函数创建出的对象，其原型都指向这个函数的prototype属性。</p>
 
-<!-- Height spacing helper -->
-<div class="heightblock"></div>
-<!-- // End height spacing helper -->
+                    <div class="clearfix"></div>
+                    <hr class="nogutter">
+            </div>
+            <nav class="pagination" role="pagination">
+    
+    
+    <a class="pull-right" href="/2017/08/03/踩坑-Javascript的forEach和Jquery的each跳出循环问题/">
+        踩坑 - Javascript的forEach和Jquery的each跳出循环问题 →
+    </a>
+    
+</nav>
 
-<!-- ============================ END Hero Image =========================== -->
-
-
-
-
-<section id="services">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="row boxes">
+                <div class="duoshuo">
                     
-                    
-                        
-                        
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
-                            
-                              <h4 class="title"><a href="/2017/08/24/JavaScript-原型-原型链/">JavaScript - 原型&amp;原型链</a></h4>
-                            
-                            <p><time datetime="2017-08-24T11:35:07.000Z"><a href="/2017/08/24/JavaScript-原型-原型链/">2017-08-24</a></time></p>
-                        </div>
-                    
-                        
-                        
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
-                            
-                              <h4 class="title"><a href="/2017/08/03/踩坑-Javascript的forEach和Jquery的each跳出循环问题/">踩坑 - Javascript的forEach和Jquery的each跳出循环问题</a></h4>
-                            
-                            <p><time datetime="2017-08-03T03:09:51.000Z"><a href="/2017/08/03/踩坑-Javascript的forEach和Jquery的each跳出循环问题/">2017-08-03</a></time></p>
-                        </div>
-                    
+
+
+
                 </div>
-            </div>    
         </div>
-    </div>
-</section> 
 
-<section id="statement">
-    <div class="container text-center wow fadeInUp" data-wow-delay="0.5s">
-        <div class="row">
-            <p>代码 | 绘画 | 模型 | 游戏 就会这些</p>
-        </div>
-    </div>
-</section>
+        <script>
+            document.addEventListener('touchmove', function (e) {
+                e.preventDefault()
+            })
+            var c = document.getElementsByTagName('canvas')[0],
+                x = c.getContext('2d'),
+                pr = 1,
+                w = window.innerWidth,
+                h = window.innerHeight,
+                f = 90,
+                q,
+                m = Math,
+                r = 0,
+                u = m.PI * 2,
+                v = m.cos,
+                z = m.random
+            c.width = w * pr
+            c.height = h * pr
+            x.scale(pr, pr)
+            x.globalAlpha = 0.6
+
+            function i() {
+                x.clearRect(0, 0, w, h)
+                q = [{
+                    x: 0,
+                    y: h * .7 + f
+                }, {
+                    x: 0,
+                    y: h * .7 - f
+                }]
+                while (q[1].x < w + f) d(q[0], q[1])
+            }
+
+            function d(i, j) {
+                x.beginPath()
+                x.moveTo(i.x, i.y)
+                x.lineTo(j.x, j.y)
+                var k = j.x + (z() * 2 - 0.25) * f,
+                    n = y(j.y)
+                x.lineTo(k, n)
+                x.closePath()
+                r -= u / -50
+                x.fillStyle = '#' + (v(r) * 127 + 128 << 16 | v(r + u / 3) * 127 + 128 << 8 | v(r + u / 3 * 2) * 127 +
+                        128)
+                    .toString(16)
+                x.fill()
+                q[0] = q[1]
+                q[1] = {
+                    x: k,
+                    y: n
+                }
+            }
+
+            function y(p) {
+                var t = p + (z() * 2 - 1.1) * f
+                return (t > h || t < 0) ? y(p) : t
+            }
+            document.onclick = i
+            document.ontouchstart = i
+            i()
+        </script>
+    </section>
+
       <footer>
     <div class="container">
             <div class="copy">
