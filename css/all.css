@@ -4116,21 +4116,29 @@ footer .footer_bottom {
 
 
 /*add css*/
-
-.readMore a {
-	font-size: 12px;
-	color: gray!important;
-	padding-top: 2px;
-	padding-bottom: 2px;
-	padding-left: 10px;
-	padding-right: 10px;
-	border: 1px solid gray;
-	border-radius: 20px;
+.readMore {
+	position: relative;
 }
 
-.readMore a:hover {
+.readMore a {
+	display: block;
+	font-size: 12px;
+	color: gray!important;
+	padding: 5px 20px;
+}
+.readMore > .readMore-bottom {
+	position: absolute;
+	left: 50%;
+	display: block;
+	height: 1px;
 	background-color: gray;
-	color: #fff!important;
+	width: 0;
+	transition: all .3s;
+}
+
+.readMore:hover .readMore-bottom{
+	width: 100%;
+	left: 0;
 }
 
 .pagination {
@@ -4193,10 +4201,6 @@ footer .footer_bottom {
 	text-decoration: none;
 }
 
-
-/* Each icon is created by inserting the corret character into the
-   content of the :before pseudo element. Like a boss. */
-
 .icon-feed:before {
 	content: "\e631";
 }
@@ -4231,8 +4235,6 @@ footer .footer_bottom {
 	z-index: -1;
 }
 
-
-/*---------------- END ------------------------*/
 @charset "utf-8";
 /* CSS Document */
 
